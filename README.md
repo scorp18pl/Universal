@@ -1,6 +1,6 @@
 # Universal
 
-Universal is a multipurpose C++ shared library used in my Projects.
+Universal is a multipurpose C++ library used in my Projects.
 
 ## Library installation
 
