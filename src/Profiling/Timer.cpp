@@ -26,7 +26,7 @@ namespace Uni::Prof
 
         const double miliseconds = (end - start) * 0.001;
 
-        auto& timerRegistry = TimeRegistry::GetTimerRegistry();
+        auto& timerRegistry = TimeRegistry::GetTimeRegistry();
         timerRegistry.RegisterTime(m_name, miliseconds);
     }
 } // namespace Uni::Prof

@@ -6,8 +6,9 @@ namespace Uni::Math
     {
         float m_x, m_y;
 
-        static Vector2f CreateFromFloat(float value);
         static Vector2f CreateZero();
+        static Vector2f CreateFromFloat(float value);
+        static Vector2f CreateRandomUnitVector();
 
         Vector2f();
         Vector2f(const Vector2f& vector) = default;
@@ -16,10 +17,14 @@ namespace Uni::Math
 
         Vector2f(float x, float y);
 
-        float GetLength() const;
-        float GetLengthSquared() const;
-        Vector2f GetNormalized() const;
+        [[nodiscard]] float GetLength() const;
+        [[nodiscard]] float GetLengthSquared() const;
+        [[nodiscard]] Vector2f GetNormalized() const;
 
+        Vector2f DotProduct(const Vector2f& vector) const;
+
+        bool operator==(const Vector2f& other) const;
+        bool operator!=(const Vector2f& other) const;
         Vector2f& operator=(const Vector2f& other) = default;
         Vector2f& operator+=(const Vector2f& other);
         Vector2f operator+(const Vector2f& other) const;

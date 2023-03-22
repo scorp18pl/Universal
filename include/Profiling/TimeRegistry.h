@@ -11,10 +11,13 @@ namespace Uni::Prof
     class TimeRegistry
     {
     public:
-        static TimeRegistry& GetTimerRegistry();
+        static TimeRegistry& GetTimeRegistry();
 
         const RegisteredTimesType& GetRegisteredTimes() const;
+        void WriteToJsonFile(
+            const char* filePath, const char* filenameNoExtension = "time_registry_log_file") const;
 
+        void ClearTimes();
         void RegisterTime(const std::string& name, double measuredTime);
 
     private:

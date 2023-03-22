@@ -1,6 +1,7 @@
 #include <Math/Vector2.h>
 
 #include <Math/Math.h>
+#include <Math/Random.h>
 #include <cmath>
 
 namespace Uni::Math
@@ -16,14 +17,22 @@ namespace Uni::Math
     {
     }
 
+    Vector2f Vector2f::CreateZero()
+    {
+        return CreateFromFloat(0.0f);
+    }
+
     Vector2f Vector2f::CreateFromFloat(float value)
     {
         return { value, value };
     }
 
-    Vector2f Vector2f::CreateZero()
+    Vector2f Vector2f::CreateRandomUnitVector()
     {
-        return CreateFromFloat(0.0f);
+        const float theta =
+            Rand::CreateRandomUniformFloat(0, Math::Constants::TwoPI);
+
+        return { std::cos(theta), std::sin(theta) };
     }
 
     float Vector2f::GetLengthSquared() const
@@ -40,6 +49,24 @@ namespace Uni::Math
     {
         const float lengthInverse = Q_rsqrt(GetLengthSquared());
         return { m_x * lengthInverse, m_y * lengthInverse };
+    }
+
+    Vector2f Vector2f::DotProduct(const Vector2f& vector) const
+    {
+        return {
+            m_x * vector.m_x,
+            m_y * vector.m_y,
+        };
+    }
+
+    bool Vector2f::operator==(const Vector2f& other) const
+    {
+        return m_x == other.m_x && m_y == other.m_y;
+    }
+
+    bool Vector2f::operator!=(const Vector2f& other) const
+    {
+        return !((*this) == other);
     }
 
     Vector2f& Vector2f::operator+=(const Vector2f& other)
