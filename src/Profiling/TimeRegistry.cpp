@@ -17,9 +17,20 @@ namespace Uni::Prof
     }
 
     void TimeRegistry::WriteToJsonFile(
-        const char* filePath, const char* filenameNoExtension) const
+        const char* filePath,
+        const char* filenameNoExtension,
+        bool append) const
     {
+        const std::string filename = std::string(filePath) + filenameNoExtension + ".json";
         nlohmann::json jsonFile;
+
+        if (append)
+        {
+            std::ifstream logFile;
+            logFile.open(filename);
+            jsonFile = nlohmann::json::parse(logFile);
+            logFile.close();
+        }
 
         for (auto& entry : m_registeredTimeMap)
         {
@@ -28,8 +39,6 @@ namespace Uni::Prof
                 jsonFile[entry.first].push_back(time);
             }
         }
-
-        const std::string filename = std::string(filePath) + filenameNoExtension + ".json";
 
         std::ofstream logFile;
         logFile.open(filename);

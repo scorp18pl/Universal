@@ -15,7 +15,9 @@ namespace Uni::Prof
 
         const RegisteredTimesType& GetRegisteredTimes() const;
         void WriteToJsonFile(
-            const char* filePath, const char* filenameNoExtension = "time_registry_log_file") const;
+            const char* filePath,
+            const char* filenameNoExtension,
+            bool append = false) const;
 
         void ClearTimes();
         void RegisterTime(const std::string& name, double measuredTime);
