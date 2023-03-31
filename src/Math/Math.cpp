@@ -1,4 +1,5 @@
 #include <Math/Math.h>
+#include <cmath>
 
 namespace Uni::Math
 {
@@ -18,5 +19,11 @@ namespace Uni::Math
         // this can be removed
 
         return y;
+    }
+
+    float FMod(float x, float y)
+    {
+        float mod = std::fmod((x < 0.0f) ? x + y : x, y);
+        return mod;
     }
 } // namespace Uni::Math

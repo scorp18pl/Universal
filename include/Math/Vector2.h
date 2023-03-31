@@ -20,6 +20,7 @@ namespace Uni::Math
         [[nodiscard]] float GetLength() const;
         [[nodiscard]] float GetLengthSquared() const;
         [[nodiscard]] Vector2f GetNormalized() const;
+        [[nodiscard]] Vector2f GetMod(const Vector2f& other) const;
 
         Vector2f DotProduct(const Vector2f& vector) const;
 

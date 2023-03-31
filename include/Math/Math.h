@@ -11,4 +11,5 @@ namespace Uni::Math
     } // namespace Constants
 
     float Q_rsqrt(float number);
+    float FMod(float x, float y);
 } // namespace Uni::Math

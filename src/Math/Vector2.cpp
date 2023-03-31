@@ -51,6 +51,11 @@ namespace Uni::Math
         return { m_x * lengthInverse, m_y * lengthInverse };
     }
 
+    Vector2f Vector2f::GetMod(const Vector2f& other) const
+    {
+        return { FMod(m_x, other.m_x), FMod(m_y, other.m_y) };
+    }
+
     Vector2f Vector2f::DotProduct(const Vector2f& vector) const
     {
         return {
