@@ -7,11 +7,15 @@
 
 namespace Uni::Alg::Noise
 {
+    //! A 2D Perlin noise generator class.
+    //! The generator can be seeded with a random number generator.
     class PerlinNoiseGenerator2D
     {
     public:
+        //! @param generator The random number generator to use.
         explicit PerlinNoiseGenerator2D(
-            const Math::Rand::Generator& generator = Math::Rand::Generator{0LU});
+            const Math::Rand::Generator& generator = Math::Rand::Generator{
+                0LU });
         PerlinNoiseGenerator2D(const PerlinNoiseGenerator2D& other) = default;
         PerlinNoiseGenerator2D(PerlinNoiseGenerator2D&& other) noexcept;
         ~PerlinNoiseGenerator2D() = default;

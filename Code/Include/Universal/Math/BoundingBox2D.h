@@ -5,6 +5,8 @@
 
 namespace Uni::Math
 {
+    //! A 2D bounding box class.
+    //! The box is defined by a minimum point and a maximum point.
     class BoundingBox2D
     {
     public:
@@ -20,7 +22,9 @@ namespace Uni::Math
         BoundingBox2D(BoundingBox2D&& other) = default;
         ~BoundingBox2D() = default;
 
-        bool IsValid() const;
+        //! The Bounding box is valid if the minimum point is less than the
+        //! maximum point.
+        [[nodiscard]] bool IsValid() const;
         [[nodiscard]] bool IsPointWithinBounds(const Vector2f& point) const;
 
         [[nodiscard]] Vector2f GetDimensions() const;

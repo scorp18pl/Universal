@@ -7,6 +7,7 @@ namespace Uni::Math::Rand
 
 namespace Uni::Math
 {
+    //! A generic 3D vector class with float components.
     struct Vector3f
     {
         float m_x, m_y, m_z;

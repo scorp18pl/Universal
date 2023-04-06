@@ -7,9 +7,11 @@
 
 namespace Uni::Grpx
 {
+    //! 2D pixel buffer with defined channel properties.
     class Bitmap : public Buffer
     {
     public:
+        //! Creates a bitmap with the given width, height and pixel flags.
         Bitmap(size_t width, size_t height, Channel::Flags pixelFlags);
         Bitmap(const Bitmap& other);
         Bitmap(Bitmap&& other) noexcept;
@@ -19,6 +21,8 @@ namespace Uni::Grpx
         [[nodiscard]] size_t GetHeight() const;
 
         [[nodiscard]] size_t GetPixelSize() const;
+        //! Returns stride in bytes.
+        //! Stride is the number of bytes between the start of one row and the start of the next.
         [[nodiscard]] size_t GetStride() const;
         [[nodiscard]] Channel::Flags GetPixelFlags() const;
         [[nodiscard]] size_t GetPixelIndex(size_t x, size_t y) const;

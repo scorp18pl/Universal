@@ -22,7 +22,6 @@ namespace Uni::Math::Rand
     {
         m_seed = seed;
         m_generator.seed(seed);
-        m_isSeedUsed = false;
     }
 
     float Generator::GenerateInRange(float min, float max)

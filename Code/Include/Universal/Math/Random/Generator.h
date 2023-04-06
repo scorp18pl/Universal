@@ -6,6 +6,7 @@ namespace Uni::Math::Rand
 {
     using SeedType = unsigned long long;
 
+    //! A random number generator class that utilizes the stl's mt19937 merseene twister.
     class Generator
     {
     public:
@@ -27,7 +28,6 @@ namespace Uni::Math::Rand
         Generator& operator=(const Generator& other) = default;
 
     private:
-        bool m_isSeedUsed{ false };
         SeedType m_seed{ 0UL };
         std::mt19937 m_generator;
     };

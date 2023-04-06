@@ -3,8 +3,8 @@
 
 namespace Uni::Prof
 {
-    Timer::Timer(const char* name)
-        : m_name(name)
+    Timer::Timer(const char* label)
+        : m_label(label)
     {
         m_startTimePoint = std::chrono::high_resolution_clock::now();
     }
@@ -26,6 +26,6 @@ namespace Uni::Prof
         const double miliseconds = (end - start) * 0.001;
 
         auto& timerRegistry = TimeRegistry::GetTimeRegistry();
-        timerRegistry.RegisterTime(m_name, miliseconds);
+        timerRegistry.RegisterTime(m_label, miliseconds);
     }
 } // namespace Uni::Prof

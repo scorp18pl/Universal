@@ -5,6 +5,8 @@
 namespace Uni::Alg::Noise
 {
 
+    //! A 2D map of floating point values.
+    //! Used to store the results of noise generation.
     class FloatMap2D
     {
     public:
@@ -16,10 +18,11 @@ namespace Uni::Alg::Noise
         [[nodiscard]] size_t GetWidth() const;
         [[nodiscard]] size_t GetHeight() const;
         [[nodiscard]] float GetValue(size_t x, size_t y) const;
-        std::pair<float, float> GetMinMax() const;
+        [[nodiscard]] std::pair<float, float> GetMinMax() const;
 
         void SetValue(size_t x, size_t y, float value);
 
+        //! Converts the map to a bitmap with grayscale values.
         [[nodiscard]] Grpx::Bitmap ToBitMap() const;
 
     private:

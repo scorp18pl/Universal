@@ -5,6 +5,7 @@
 
 namespace Uni::Grpx
 {
+    //! A simple buffer of bytes.
     class Buffer
     {
     public:
@@ -17,7 +18,7 @@ namespace Uni::Grpx
         [[nodiscard]] size_t GetSize() const;
 
     protected:
-        uint8_t* m_data{ nullptr };
-        size_t m_size{ 0LU };
+        uint8_t* m_data{ nullptr }; //! Pointer to the start of the buffer.
+        size_t m_size{ 0LU }; //! Size in bytes.
     };
 } // namespace Uni::Grpx

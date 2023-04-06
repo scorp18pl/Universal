@@ -7,7 +7,7 @@
 
 namespace Uni::Alg::Noise
 {
-
+    //! A 2D grid of unit vectors.
     class VectorGrid2D
     {
     public:
@@ -22,12 +22,14 @@ namespace Uni::Alg::Noise
         [[nodiscard]] size_t GetCellCountY() const;
 
         //! Samples the grid at the given position.
+        //! Sampled values create a single frequency Perlin noise pattern.
         //! @param gridPosition The position to sample the grid at.
         //! @return The sampled value.
         [[nodiscard]] float Sample(const Math::Vector2f& gridPosition) const;
 
         //! Resizes the grid.
         void Resize(size_t cellCountX, size_t cellCountY);
+
         //! Generates a new set of vectors for the grid using the provided generator.
         //! @param generator The generator to use to generate the vectors.
         void GenerateVectors(Math::Rand::Generator& generator);
