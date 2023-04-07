@@ -28,7 +28,7 @@ namespace Uni::Prof
         //! Clears all registered times.
         void ClearTimes();
 
-        //! Registers a time (in miliseconds) with a label.
+        //! Registers a time (in milliseconds) with a label.
         void RegisterTime(const std::string& name, double measuredTime);
 
     private:

@@ -56,5 +56,17 @@ namespace Uni::Grpx
             y * bitmap.GetStride() + x * bitmap.GetPixelSize();
 
         EXPECT_EQ(bitmap.GetPixelIndex(x, y), expectedIndex);
+
+        pixelFlags = static_cast<Channel::Flags>(
+            Channel::Flags::GreyScale | Channel::Flags::Alpha);
+        width = 20;
+        height = 20;
+        Bitmap bitmap2(width, height, pixelFlags);
+
+        x = 10;
+        y = 10;
+        expectedIndex = y * bitmap2.GetStride() + x * bitmap2.GetPixelSize();
+
+        EXPECT_EQ(bitmap2.GetPixelIndex(x, y), expectedIndex);
     }
 } // namespace Uni::Grpx

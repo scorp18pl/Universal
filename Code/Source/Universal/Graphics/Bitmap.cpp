@@ -61,6 +61,6 @@ namespace Uni::Grpx
 
     size_t Bitmap::GetPixelIndex(size_t x, size_t y) const
     {
-        return m_width * y + x;
+        return GetStride() * y + x * GetPixelSize();
     }
 } // namespace Uni::Grpx
