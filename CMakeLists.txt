@@ -48,7 +48,7 @@ add_library(universal STATIC
         Code/Include/Universal/Graphics/Bitmap.h
         Code/Include/Universal/Graphics/Buffer.h
         Code/Include/Universal/Graphics/GraphicsUtils.h
-        )
+        Code/Include/Universal/Graphics/Color.h Code/Source/Universal/Graphics/Color.cpp Code/Include/Universal/Math/Matrix2x3f.h Code/Source/Universal/Math/Matrix2x3f.cpp)
 
 target_include_directories(universal
         PUBLIC Code/Include
