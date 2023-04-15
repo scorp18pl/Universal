@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Universal/Math/Vector3f.h>
+#include <cstdint>
 
 namespace Uni::Grpx
 {
@@ -17,6 +18,8 @@ namespace Uni::Grpx
             const Math::Vector3f& vector, float alpha = 1.0f);
         static Color CreateFromFloats(
             float red, float green, float blue, float alpha = 1.0f);
+        static Color CreateFromUint8(
+                uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 255);
 
         Color() = default;
 

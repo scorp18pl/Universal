@@ -1,5 +1,3 @@
-#pragma once
-
 #include <Universal/Graphics/Color.h>
 
 const Uni::Grpx::Color Uni::Grpx::Color::White = CreateFromFloats(1.0f, 1.0f, 1.0f);
@@ -21,6 +19,16 @@ Uni::Grpx::Color Uni::Grpx::Color::CreateFromFloats(
     float red, float green, float blue, float alpha)
 {
     return CreateFromVector3f({red, green, blue}, alpha);
+}
+
+Uni::Grpx::Color Uni::Grpx::Color::CreateFromUint8(
+    uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+{
+    return CreateFromFloats(
+        static_cast<float>(red) / 255.0f,
+        static_cast<float>(green) / 255.0f,
+        static_cast<float>(blue) / 255.0f,
+        static_cast<float>(alpha) / 255.0f);
 }
 
 float Uni::Grpx::Color::GetRed() const

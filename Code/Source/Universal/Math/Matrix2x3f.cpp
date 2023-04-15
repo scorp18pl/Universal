@@ -1,5 +1,4 @@
 #include <Universal/Math/Math.h>
-#include <Universal/Math/Matrix2x2f.h>
 #include <Universal/Math/Matrix2x3f.h>
 #include <cmath>
 
@@ -60,6 +59,11 @@ Uni::Math::Matrix2x3f Uni::Math::Matrix2x3f::CreateFromRowMajorFloats(
     matrix.m_values[5] = values[5];
 
     return matrix;
+}
+
+float Uni::Math::Matrix2x3f::operator()(size_t row, size_t column) const
+{
+    return m_values[row * 3 + column];
 }
 
 Uni::Math::Vector2f Uni::Math::Matrix2x3f::TransformVector2f(
