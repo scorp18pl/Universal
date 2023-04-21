@@ -1,5 +1,9 @@
 # Universal
 
+<h1 align="center">
+  <img src="static/universal-logo.png" width="50%" alt="Universal">
+</h1>
+
 Universal is a multipurpose C++ library used in my Projects.
 
 ## Features
