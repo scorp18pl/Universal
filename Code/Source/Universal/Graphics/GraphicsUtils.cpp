@@ -1,5 +1,5 @@
-#include <Universal/Graphics/GraphicsUtils.h>
 #include <Universal/Graphics/Channel.h>
+#include <Universal/Graphics/GraphicsUtils.h>
 
 namespace Uni::Grpx::Utils
 {
@@ -36,9 +36,9 @@ namespace Uni::Grpx::Utils
     size_t GetChannelCount(Channel::Flags flags)
     {
         size_t count = 1LU;
-        if(!(flags & Channel::Flags::GreyScale))
+        if (!(flags & Channel::Flags::GreyScale))
         {
-            count += 3LU;
+            count += 2LU;
         }
 
         if (flags & Channel::Flags::Alpha)
@@ -47,5 +47,30 @@ namespace Uni::Grpx::Utils
         }
 
         return count;
+    }
+
+    Channel::Flags GetChannelFlags(size_t channelCount)
+    {
+        Channel::Flags flags = Channel::Flags::Invalid;
+        switch (channelCount)
+        {
+        case 1LU:
+            flags = Channel::Flags::GreyScale;
+            break;
+        case 2LU:
+            flags = static_cast<Channel::Flags>(
+                Channel::Flags::GreyScale | Channel::Flags::Alpha);
+            break;
+        case 3LU:
+            flags = Channel::Flags::None;
+            break;
+        case 4LU:
+            flags = Channel::Flags::Alpha;
+            break;
+        default:
+            break;
+        }
+
+        return flags;
     }
 } // namespace Uni::Grpx::Utils

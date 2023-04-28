@@ -1,11 +1,53 @@
 #include <Universal/Graphics/Bitmap.h>
 #include <Universal/Graphics/GraphicsUtils.h>
 #include <cstring>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
+#include <stdexcept>
 
 namespace Uni::Grpx
 {
+    Bitmap Bitmap::CreateFromFile(
+        const std::string& path, bool flipVertically, Channel::Flags pixelFlags)
+    {
+        int width, height;
+        int desiredChannels = 0;
+        if (pixelFlags != Channel::Flags::Invalid)
+        {
+            desiredChannels =
+                static_cast<int>(Utils::GetChannelCount(pixelFlags));
+        }
+
+        int channels = 0;
+        stbi_set_flip_vertically_on_load(flipVertically);
+        unsigned char* data = stbi_load(
+            path.c_str(), &width, &height, &channels, desiredChannels);
+
+        if (data == nullptr)
+        {
+            throw std::runtime_error("Failed to load image: " + path);
+        }
+
+        return {
+            data,
+            static_cast<size_t>(width),
+            static_cast<size_t>(height),
+            Utils::GetChannelFlags(static_cast<size_t>(channels))
+        };
+    }
+
     Bitmap::Bitmap(size_t width, size_t height, Channel::Flags pixelFlags)
         : Buffer{ Utils::CalculatePixelSize(pixelFlags) * width * height }
+        , m_width{ width }
+        , m_height{ height }
+        , m_pixelFlags{ pixelFlags }
+        , m_pixelSize{ Utils::CalculatePixelSize(pixelFlags) }
+    {
+    }
+
+    Bitmap::Bitmap(
+        uint8_t* data, size_t width, size_t height, Channel::Flags pixelFlags)
+        : Buffer{ data, Utils::CalculatePixelSize(pixelFlags) * width * height }
         , m_width{ width }
         , m_height{ height }
         , m_pixelFlags{ pixelFlags }

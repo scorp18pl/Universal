@@ -20,6 +20,7 @@ namespace Uni::Grpx::Channel
         RGB16 = 0b00000010, //!< If enabled uses 16 bits for the Red Green
                             //!< and Blue channels, if not uses 8 bits.
         Alpha = 0b00000100, //!< Enables the alpha channel (8 bits).
+        Invalid = 0b11111111,   //!< Invalid value.
     };
 
     using Type8bit = uint8_t;

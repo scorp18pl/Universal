@@ -15,6 +15,7 @@ add_executable(${PROJECT_NAME}
         Universal/Math/Random/Generator.cpp
         Universal/Graphics/BitmapTest.cpp
         Universal/Graphics/BufferTest.cpp
-        Universal/Math/Matrix2x3fTest.cpp)
+        Universal/Math/Matrix2x3fTest.cpp
+        Universal/System/ClockTest.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE universal gtest gtest_main)

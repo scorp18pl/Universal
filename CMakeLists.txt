@@ -31,7 +31,6 @@ add_library(universal STATIC
         Code/Source/Universal/Profiling/Timer.cpp
         Code/Source/Universal/Profiling/TimeRegistry.cpp
         Code/Source/Universal/Graphics/Bitmap.cpp
-        Code/Source/Universal/Graphics/Buffer.cpp
         Code/Source/Universal/Graphics/GraphicsUtils.cpp
         Code/Include/Universal/Algorithm/Noise/PerlinNoiseGenerator2D.h
         Code/Include/Universal/Algorithm/Noise/VectorGrid2D.h
@@ -48,11 +47,16 @@ add_library(universal STATIC
         Code/Include/Universal/Graphics/Bitmap.h
         Code/Include/Universal/Graphics/Buffer.h
         Code/Include/Universal/Graphics/GraphicsUtils.h
-        Code/Include/Universal/Graphics/Color.h Code/Source/Universal/Graphics/Color.cpp Code/Include/Universal/Math/Matrix2x3f.h Code/Source/Universal/Math/Matrix2x3f.cpp)
+        Code/Include/Universal/Graphics/Color.h
+        Code/Source/Universal/Graphics/Color.cpp
+        Code/Include/Universal/Math/Matrix2x3f.h
+        Code/Source/Universal/Math/Matrix2x3f.cpp
+        3rdParty/Include/stb/stb_image.h
+        Code/Source/Universal/System/Clock.cpp Code/Include/Universal/System/Clock.h)
 
 target_include_directories(universal
         PUBLIC Code/Include
-        PRIVATE Code/Source
+        PRIVATE Code/Source 3rdParty/Include
         )
 
 target_link_libraries(universal PRIVATE nlohmann_json::nlohmann_json)
