@@ -1,5 +1,5 @@
 #include <Universal/Math/Random/Generator.h>
-#include <Universal/Math/Vector3f.h>
+#include <Universal/Math/Vector/Vector3f.h>
 #include <gtest/gtest.h>
 
 TEST(Vector3fTest, CreateZero)

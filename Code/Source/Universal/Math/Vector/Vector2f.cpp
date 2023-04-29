@@ -1,6 +1,6 @@
-#include <Universal/Math/Vector2f.h>
 #include <Universal/Math/Math.h>
 #include <Universal/Math/Random/Generator.h>
+#include <Universal/Math/Vector/Vector2f.h>
 #include <cmath>
 
 namespace Uni::Math
@@ -46,8 +46,7 @@ namespace Uni::Math
 
     Vector2f Vector2f::GetNormalized() const
     {
-        const float lengthInverse = Q_rsqrt(GetLengthSquared());
-        return { m_x * lengthInverse, m_y * lengthInverse };
+        return (*this) * Q_rsqrt(GetLengthSquared());
     }
 
     Vector2f Vector2f::GetMod(const Vector2f& other) const
@@ -57,7 +56,7 @@ namespace Uni::Math
 
     float Vector2f::Dot(const Vector2f& vector) const
     {
-            return m_x * vector.m_x + m_y * vector.m_y;
+        return m_x * vector.m_x + m_y * vector.m_y;
     }
 
     bool Vector2f::operator==(const Vector2f& other) const
@@ -80,9 +79,7 @@ namespace Uni::Math
 
     Vector2f Vector2f::operator+(const Vector2f& other) const
     {
-        Vector2f vector = (*this);
-        vector += other;
-        return vector;
+        return Vector2f(*this) += other;
     }
 
     Vector2f& Vector2f::operator-=(const Vector2f& other)
@@ -95,9 +92,7 @@ namespace Uni::Math
 
     Vector2f Vector2f::operator-(const Vector2f& other) const
     {
-        Vector2f vector = (*this);
-        vector -= other;
-        return vector;
+        return Vector2f(*this) -= other;
     }
 
     Vector2f& Vector2f::operator*=(float value)
@@ -118,16 +113,12 @@ namespace Uni::Math
 
     Vector2f Vector2f::operator*(float value) const
     {
-        Vector2f vector = (*this);
-        vector *= value;
-        return vector;
+        return Vector2f(*this) *= value;
     }
 
     Vector2f Vector2f::operator*(const Vector2f& other) const
     {
-        Vector2f vector = (*this);
-        vector *= other;
-        return vector;
+        return Vector2f(*this) *= other;
     }
 
     Vector2f& Vector2f::operator/=(float value)
@@ -155,8 +146,16 @@ namespace Uni::Math
 
     Vector2f Vector2f::operator/(const Vector2f& other) const
     {
-        Vector2f vector = (*this);
-        vector /= other;
-        return vector;
+        return Vector2f(*this) /= other;
+    }
+
+    Vector2f operator*(float lhs, const Vector2f& rhs)
+    {
+        return rhs * lhs;
+    }
+
+    Vector2f operator-(const Vector2f& vector)
+    {
+        return { -vector.m_x, -vector.m_y };
     }
 } // namespace Uni::Math

@@ -11,8 +11,8 @@ Universal is a multipurpose C++ library used in my Projects.
 The Universal library delivers a set of utilities for C++ code development: 
 1. **Math**
    - **2D Bounding Box**
-   - **2D and 3D Vectors**
-   - **2x3 Matrices**
+   - **2D, 3D, 4D Vectors**
+   - **2x3, 3x4 Matrices**
    - **Random Number Generator**
    - Math Utility functions
 2. **Profiling**

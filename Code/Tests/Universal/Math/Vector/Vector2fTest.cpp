@@ -1,5 +1,5 @@
 #include <Universal/Math/Random/Generator.h>
-#include <Universal/Math/Vector2f.h>
+#include <Universal/Math/Vector/Vector2f.h>
 #include <gtest/gtest.h>
 
 namespace Uni::Math

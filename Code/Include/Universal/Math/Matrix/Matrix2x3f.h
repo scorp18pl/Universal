@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Universal/Math/Vector2f.h>
-#include <Universal/Math/Vector3f.h>
+#include <Universal/Math/Vector/Vector2f.h>
+#include <Universal/Math/Vector/Vector3f.h>
 #include <array>
 #include <cstddef>
 
@@ -24,6 +24,7 @@ namespace Uni::Math
         ~Matrix2x3f() = default;
 
         float operator()(size_t row, size_t column) const;
+        float& operator()(size_t row, size_t column);
 
         Vector2f TransformVector2f(const Vector2f& vector) const;
         Vector3f TransformVector3f(const Vector3f& vector) const;

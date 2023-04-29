@@ -1,5 +1,5 @@
 #include <Universal/Math/Math.h>
-#include <Universal/Math/Matrix2x3f.h>
+#include <Universal/Math/Matrix/Matrix2x3f.h>
 #include <cmath>
 
 Uni::Math::Matrix2x3f Uni::Math::Matrix2x3f::CreateIdentity()
@@ -62,6 +62,11 @@ Uni::Math::Matrix2x3f Uni::Math::Matrix2x3f::CreateFromRowMajorFloats(
 }
 
 float Uni::Math::Matrix2x3f::operator()(size_t row, size_t column) const
+{
+    return m_values[row * 3 + column];
+}
+
+float& Uni::Math::Matrix2x3f::operator()(size_t row, size_t column)
 {
     return m_values[row * 3 + column];
 }

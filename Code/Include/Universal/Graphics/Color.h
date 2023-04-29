@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Universal/Math/Vector3f.h>
+#include <Universal/Math/Vector/Vector4f.h>
 #include <cstdint>
 
 namespace Uni::Grpx
@@ -14,8 +14,8 @@ namespace Uni::Grpx
         static const Color Green;
         static const Color Blue;
 
-        static Color CreateFromVector3f(
-            const Math::Vector3f& vector, float alpha = 1.0f);
+        static Color CreateFromVector4f(
+            const Math::Vector4f& vector);
         static Color CreateFromFloats(
             float red, float green, float blue, float alpha = 1.0f);
         static Color CreateFromUint8(
@@ -26,11 +26,11 @@ namespace Uni::Grpx
         [[nodiscard]] float GetRed() const;
         [[nodiscard]] float GetGreed() const;
         [[nodiscard]] float GetBlue() const;
-        [[nodiscard]] Math::Vector3f GetColor() const;
         [[nodiscard]] float GetAlpha() const;
+        [[nodiscard]] Math::Vector4f GetColor() const;
 
     private:
-        Math::Vector3f m_color;
+        Math::Vector4f m_color;
         float m_alpha;
     };
 } // namespace Uni::Grpx

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Universal/Math/Vector2f.h>
+#include <Universal/Math/Vector/Vector2f.h>
 #include <vector>
 
 namespace Uni::Math

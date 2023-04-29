@@ -25,8 +25,8 @@ add_library(universal STATIC
         Code/Source/Universal/Algorithm/Noise/FloatMap2D.cpp
         Code/Source/Universal/Math/BoundingBox2D.cpp
         Code/Source/Universal/Math/Math.cpp
-        Code/Source/Universal/Math/Vector2f.cpp
-        Code/Source/Universal/Math/Vector3f.cpp
+        Code/Source/Universal/Math/Vector/Vector2f.cpp
+        Code/Source/Universal/Math/Vector/Vector3f.cpp
         Code/Source/Universal/Math/Random/Generator.cpp
         Code/Source/Universal/Profiling/Timer.cpp
         Code/Source/Universal/Profiling/TimeRegistry.cpp
@@ -37,8 +37,8 @@ add_library(universal STATIC
         Code/Include/Universal/Algorithm/Noise/FloatMap2D.h
         Code/Include/Universal/Math/BoundingBox2D.h
         Code/Include/Universal/Math/Math.h
-        Code/Include/Universal/Math/Vector2f.h
-        Code/Include/Universal/Math/Vector3f.h
+        Code/Include/Universal/Math/Vector/Vector2f.h
+        Code/Include/Universal/Math/Vector/Vector3f.h
         Code/Include/Universal/Math/Random/Generator.h
         Code/Include/Universal/Math/Random/RandomUtils.h
         Code/Include/Universal/Profiling/Timer.h
@@ -49,10 +49,10 @@ add_library(universal STATIC
         Code/Include/Universal/Graphics/GraphicsUtils.h
         Code/Include/Universal/Graphics/Color.h
         Code/Source/Universal/Graphics/Color.cpp
-        Code/Include/Universal/Math/Matrix2x3f.h
-        Code/Source/Universal/Math/Matrix2x3f.cpp
+        Code/Include/Universal/Math/Matrix/Matrix2x3f.h
+        Code/Source/Universal/Math/Matrix/Matrix2x3f.cpp
         3rdParty/Include/stb/stb_image.h
-        Code/Source/Universal/System/Clock.cpp Code/Include/Universal/System/Clock.h)
+        Code/Source/Universal/System/Clock.cpp Code/Include/Universal/System/Clock.h Code/Source/Universal/Math/Vector/Vector4f.cpp Code/Include/Universal/Math/Vector/Vector4f.h Code/Source/Universal/Math/Matrix/Matrix3x4f.cpp Code/Include/Universal/Math/Matrix/Matrix3x4f.h)
 
 target_include_directories(universal
         PUBLIC Code/Include

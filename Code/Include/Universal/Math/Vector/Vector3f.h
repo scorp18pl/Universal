@@ -43,5 +43,8 @@ namespace Uni::Math
         Vector3f operator*(const Vector3f& other) const;
         Vector3f& operator/=(float value);
         Vector3f operator/(float value) const;
+
+        friend Vector3f operator*(float lhs, const Vector3f &rhs);
+        friend Vector3f operator-(const Vector3f &vector);
     };
 } // namespace Uni::Math

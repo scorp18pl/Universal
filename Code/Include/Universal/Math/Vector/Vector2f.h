@@ -45,5 +45,8 @@ namespace Uni::Math
         Vector2f& operator/=(const Vector2f& other);
         Vector2f operator/(float value) const;
         Vector2f operator/(const Vector2f& other) const;
+
+        friend Vector2f operator*(float lhs, const Vector2f &rhs);
+        friend Vector2f operator-(const Vector2f &vector);
     };
 } // namespace Uni::Math

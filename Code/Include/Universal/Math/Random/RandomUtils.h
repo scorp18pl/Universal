@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Universal/Math/Random/Generator.h>
-#include <Universal/Math/Vector2f.h>
+#include <Universal/Math/Vector/Vector2f.h>
 
 namespace Uni::Math::Rand::Utils
 {

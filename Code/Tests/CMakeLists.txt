@@ -8,14 +8,14 @@ add_executable(${PROJECT_NAME}
         Universal/Algorithm/Noise/FloatMap2DTest.cpp
         Universal/Algorithm/Noise/PerlinNoiseGenerator2DTest.cpp
         Universal/Algorithm/Noise/VectorGrid2DTest.cpp
-        Universal/Math/Vector2fTest.cpp
-        Universal/Math/Vector3fTest.cpp
+        Universal/Math/Vector/Vector2fTest.cpp
+        Universal/Math/Vector/Vector3fTest.cpp
         Universal/Math/BoundingBox2DTest.cpp
         Universal/Math/MathTest.cpp
         Universal/Math/Random/Generator.cpp
         Universal/Graphics/BitmapTest.cpp
         Universal/Graphics/BufferTest.cpp
-        Universal/Math/Matrix2x3fTest.cpp
-        Universal/System/ClockTest.cpp)
+        Universal/Math/Matrix/Matrix2x3fTest.cpp
+        Universal/System/ClockTest.cpp Universal/Math/Vector/Vector4Test.cpp Universal/Math/Matrix/Matrix3x4fTest.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE universal gtest gtest_main)

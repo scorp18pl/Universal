@@ -1,5 +1,5 @@
 #include <Universal/Math/Math.h>
-#include <Universal/Math/Matrix2x3f.h>
+#include <Universal/Math/Matrix/Matrix2x3f.h>
 #include <gtest/gtest.h>
 #include <valarray>
 

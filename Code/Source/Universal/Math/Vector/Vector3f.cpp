@@ -1,6 +1,6 @@
-#include <Universal/Math/Vector3f.h>
 #include <Universal/Math/Math.h>
 #include <Universal/Math/Random/Generator.h>
+#include <Universal/Math/Vector/Vector3f.h>
 #include <cmath>
 
 namespace Uni::Math
@@ -50,10 +50,7 @@ namespace Uni::Math
 
     Vector3f Vector3f::GetNormalized() const
     {
-        const float lengthInverse = Q_rsqrt(GetLengthSquared());
-        return { m_x * lengthInverse,
-                 m_y * lengthInverse,
-                 m_z * lengthInverse };
+        return (*this) * Q_rsqrt(GetLengthSquared());
     }
 
     float Vector3f::DotProduct(const Vector3f& vector) const
@@ -91,9 +88,7 @@ namespace Uni::Math
 
     Vector3f Vector3f::operator+(const Vector3f& other) const
     {
-        Vector3f vector = (*this);
-        vector += other;
-        return vector;
+        return Vector3f(*this) += other;
     }
 
     Vector3f& Vector3f::operator-=(const Vector3f& other)
@@ -107,9 +102,7 @@ namespace Uni::Math
 
     Vector3f Vector3f::operator-(const Vector3f& other) const
     {
-        Vector3f vector = (*this);
-        vector -= other;
-        return vector;
+        return Vector3f(*this) -= other;
     }
 
     Vector3f& Vector3f::operator*=(float value)
@@ -132,16 +125,12 @@ namespace Uni::Math
 
     Vector3f Vector3f::operator*(float value) const
     {
-        Vector3f vector = (*this);
-        vector *= value;
-        return vector;
+        return Vector3f(*this) *= value;
     }
 
     Vector3f Vector3f::operator*(const Vector3f& other) const
     {
-        Vector3f vector = (*this);
-        vector *= other;
-        return vector;
+        return Vector3f(*this) *= other;
     }
 
     Vector3f& Vector3f::operator/=(float value)
@@ -155,8 +144,16 @@ namespace Uni::Math
 
     Vector3f Vector3f::operator/(float value) const
     {
-        Vector3f vector = (*this);
-        vector /= value;
-        return vector;
+        return Vector3f(*this) /= value;
+    }
+
+    Vector3f operator*(float lhs, const Vector3f& rhs)
+    {
+        return rhs * lhs;
+    }
+
+    Vector3f operator-(const Vector3f& vector)
+    {
+        return { -vector.m_x, -vector.m_y, -vector.m_z };
     }
 } // namespace Uni::Math
