@@ -65,18 +65,18 @@ TEST(Matrix3x4fTest, CreateFromRotationDegrees)
         epsilon);
 }
 
- TEST(Matrix3x4fTest, CreateFromScale)
+TEST(Matrix3x4fTest, CreateFromScale)
 {
-     Vector3f scale(2.0f, 3.0f, 4.0f);
-     Matrix3x4f matrix = Matrix3x4f::CreateFromScale(scale);
+    Vector3f scale(2.0f, 3.0f, 4.0f);
+    Matrix3x4f matrix = Matrix3x4f::CreateFromScale(scale);
 
-     const Vector3f scaledVector = matrix * Vector3f(1.0f, 1.0f, 1.0f);
+    const Vector3f scaledVector = matrix * Vector3f(1.0f, 1.0f, 1.0f);
 
-     // Check that the matrix represents the correct scaling
-     ASSERT_NEAR(scaledVector.m_x, scale.m_x, epsilon);
-     ASSERT_NEAR(scaledVector.m_y, scale.m_y, epsilon);
-     ASSERT_NEAR(scaledVector.m_z, scale.m_z, epsilon);
- }
+    // Check that the matrix represents the correct scaling
+    ASSERT_NEAR(scaledVector.m_x, scale.m_x, epsilon);
+    ASSERT_NEAR(scaledVector.m_y, scale.m_y, epsilon);
+    ASSERT_NEAR(scaledVector.m_z, scale.m_z, epsilon);
+}
 
 TEST(Matrix3x4fTest, CreateFromRowMajorFloats)
 {
@@ -122,16 +122,12 @@ TEST(Matrix3x4fTest, TransformVector4f)
 TEST(Matrix3x4fTest, MatrixMultiplication)
 {
     float valuesA[12] = {
-        1,  2,  3,  4,
-        5,  6,  7,  8,
-        9, 10, 11, 12,
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
     };
     Matrix3x4f matrixA = Matrix3x4f::CreateFromRowMajorFloats(valuesA);
 
     float valuesB[12] = {
-        -1,  0, 1,  2,
-        -2,  1, 0, -1,
-         1, -1, 0,  1,
+        -1, 0, 1, 2, -2, 1, 0, -1, 1, -1, 0, 1,
     };
     Matrix3x4f matrixB = Matrix3x4f::CreateFromRowMajorFloats(valuesB);
 
@@ -139,9 +135,7 @@ TEST(Matrix3x4fTest, MatrixMultiplication)
 
     // Check that the matrices were multiplied correctly
     float expectedValues[12] = {
-         -2, -1, 1,  7,
-        -10, -1, 5, 19,
-        -18, -1, 9, 31,
+        -2, -1, 1, 7, -10, -1, 5, 19, -18, -1, 9, 31,
     };
     for (size_t row = 0; row < 3; ++row)
     {
@@ -172,12 +166,19 @@ TEST(Matrix3x4fTest, OperatorParentheses)
 TEST(Matrix3x4fTest, RotateAndTranslate)
 {
     float angle = 45.0f; // 45 degrees
-    Matrix3x4f rotationMatrix =
+    Matrix3x4f rotationMatrix1 =
         Matrix3x4f::CreateFromRotationDegrees(angle, Axis::Z);
+
+    Matrix3x4f rotationMatrix2 =
+        Matrix3x4f::CreateFromRotationDegrees(angle, Axis::Y);
+
+    Matrix3x4f rotationMatrix3 =
+        Matrix3x4f::CreateFromRotationDegrees(angle, Axis::X);
+
     Matrix3x4f translationMatrix =
         Matrix3x4f::CreateFromTranslation({ 1.0f, 2.0f, 3.0f });
 
-    Matrix3x4f combinedMatrix = translationMatrix * rotationMatrix;
+    Matrix3x4f combinedMatrix = translationMatrix * rotationMatrix1;
 
     Vector3f vector(1.0f, 0.0f, 0.0f);
     Vector3f transformedVector = combinedMatrix * vector;
