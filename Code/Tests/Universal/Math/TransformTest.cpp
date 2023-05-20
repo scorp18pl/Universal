@@ -1,120 +1,93 @@
+#include <Universal/Math/Math.h>
 #include <Universal/Math/Transform.h>
 #include <gtest/gtest.h>
 
-using Uni::Math::Matrix3x4f;
-using Uni::Math::Transform;
-using Uni::Math::Vector3f;
+using namespace Uni::Math;
 
 namespace
 {
-    const float kTolerance = 1e-6f;
-
-    bool CompareFloat(float a, float b)
-    {
-        return std::abs(a - b) <= kTolerance;
-    }
-
-    bool CompareVector3f(const Vector3f& a, const Vector3f& b)
-    {
-        return a == b;
-    }
-
-    bool CompareMatrix3x4f(const Matrix3x4f& a, const Matrix3x4f& b)
-    {
-        for (size_t row = 0; row < 3; ++row)
-        {
-            for (size_t col = 0; col < 4; ++col)
-            {
-                if (!CompareFloat(a(row, col), b(row, col)))
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    TEST(TransformTest, DefaultConstructor)
-    {
-        Transform transform;
-        Matrix3x4f identity = Matrix3x4f::CreateIdentity();
-        Vector3f one = Vector3f::CreateFromFloat(1.0f);
-        Vector3f zero = Vector3f::CreateFromFloat(0.0f);
-
-        EXPECT_TRUE(CompareMatrix3x4f(transform.GetMatrix(), identity));
-        EXPECT_TRUE(CompareVector3f(transform.GetScale(), one));
-        EXPECT_TRUE(CompareMatrix3x4f(transform.GetRotation(), identity));
-        EXPECT_TRUE(CompareVector3f(transform.GetTranslation(), zero));
-    }
-
-    TEST(TransformTest, SetTranslation)
-    {
-        Transform transform;
-        Vector3f newPosition(2.0f, 3.0f, 4.0f);
-        transform.SetTranslation(newPosition);
-
-        EXPECT_TRUE(CompareVector3f(transform.GetTranslation(), newPosition));
-    }
-
-    TEST(TransformTest, SetRotation)
-    {
-        const float values[12] = { 1.0f,  0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                                   -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f };
-
-        Transform transform;
-        Matrix3x4f newRotation = Matrix3x4f::CreateFromRowMajorFloats(values);
-        transform.SetRotation(newRotation);
-
-        EXPECT_TRUE(CompareMatrix3x4f(transform.GetRotation(), newRotation));
-    }
-
-    TEST(TransformTest, SetScale)
-    {
-        Transform transform;
-        Vector3f newScale(2.0f, 3.0f, 4.0f);
-        transform.SetScale(newScale);
-
-        EXPECT_TRUE(CompareVector3f(transform.GetScale(), newScale));
-    }
-
-    TEST(TransformTest, Translate)
-    {
-        Transform transform;
-        Vector3f translation(2.0f, 3.0f, 4.0f);
-        Vector3f initialPosition = transform.GetTranslation();
-        transform.Translate(translation);
-        Vector3f expectedPosition = initialPosition + translation;
-
-        EXPECT_TRUE(
-            CompareVector3f(transform.GetTranslation(), expectedPosition));
-    }
-
-    TEST(TransformTest, Rotate)
-    {
-        const float values[12] = { 1.0f,  0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-                                   -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f };
-
-        Transform transform;
-        Matrix3x4f rotation = Matrix3x4f::CreateFromRowMajorFloats(values);
-        Matrix3x4f initialRotation = transform.GetRotation();
-        transform.Rotate(rotation);
-        Matrix3x4f expectedRotation = rotation * initialRotation;
-
-        EXPECT_TRUE(
-            CompareMatrix3x4f(transform.GetRotation(), expectedRotation));
-    }
-
-    TEST(TransformTest, Scale)
-    {
-        Transform transform;
-        Vector3f scale(2.0f, 3.0f, 4.0f);
-        Vector3f initialScale = transform.GetScale();
-        transform.Scale(scale);
-        Vector3f expectedScale = Vector3f(
-            initialScale.m_x * scale.m_x,
-            initialScale.m_y * scale.m_y,
-            initialScale.m_z * scale.m_z);
-
-        EXPECT_TRUE(CompareVector3f(transform.GetScale(), expectedScale));
-    }
+    Quaternion defaultRotation = Quaternion::CreateIdentity();
+    Vector3f defaultScale = { 1.0f, 1.0f, 1.0f };
+    Vector3f defaultTranslation = { 0.0f, 0.0f, 0.0f };
 } // namespace
+
+class TransformTest : public ::testing::Test
+{
+protected:
+    Transform* transform;
+
+    void SetUp() override
+    {
+        transform =
+            new Transform(defaultRotation, defaultScale, defaultTranslation);
+    }
+
+    void TearDown() override
+    {
+        delete transform;
+        transform = nullptr;
+    }
+};
+
+TEST_F(TransformTest, DefaultConstructorTest)
+{
+    EXPECT_EQ(transform->GetRotation(), defaultRotation);
+    EXPECT_EQ(transform->GetScale(), defaultScale);
+    EXPECT_EQ(transform->GetTranslation(), defaultTranslation);
+}
+
+TEST_F(TransformTest, ParentNullByDefault)
+{
+    EXPECT_EQ(transform->GetParent(), nullptr);
+}
+
+TEST_F(TransformTest, SetParentTest)
+{
+    Transform parentTransform;
+    transform->SetParent(&parentTransform);
+    EXPECT_EQ(transform->GetParent(), &parentTransform);
+}
+
+TEST_F(TransformTest, TranslationTest)
+{
+    Vector3f newTranslation{ 1.0f, 2.0f, 3.0f };
+    transform->Translate(newTranslation);
+    EXPECT_EQ(transform->GetTranslation(), newTranslation);
+}
+
+TEST_F(TransformTest, RotationTest)
+{
+    Quaternion newRotation =
+        Quaternion::CreateFromEulerRadZYX({ 0.0f, 0.0f, Constants::PI / 2.0f });
+    transform->Rotate(newRotation);
+    EXPECT_EQ(transform->GetRotation(), newRotation);
+}
+
+TEST_F(TransformTest, ScaleTest)
+{
+    Vector3f newScale{ 2.0f, 2.0f, 2.0f };
+    transform->Scale(newScale);
+    EXPECT_EQ(transform->GetScale(), newScale);
+}
+
+TEST_F(TransformTest, GetWorldTransformTest)
+{
+    // Setup parent transform
+    Vector3f parentScale{ 2.0f, 2.0f, 2.0f };
+    Quaternion parentRotation =
+        Quaternion::CreateFromEulerRadZYX({ 0.0f, 0.0f, Constants::PI });
+    Vector3f parentTranslation{ 1.0f, 2.0f, 3.0f };
+    Transform parentTransform(parentRotation, parentScale, parentTranslation);
+    transform->SetParent(&parentTransform);
+
+    Transform worldTransform = transform->GetWorldTransform();
+
+    // Assert world transform values
+    EXPECT_EQ(worldTransform.GetScale(), transform->GetScale() * parentScale);
+    EXPECT_EQ(
+        worldTransform.GetRotation(),
+        transform->GetRotation() * parentRotation);
+    EXPECT_EQ(
+        worldTransform.GetTranslation(),
+        parentTransform.GetTranslation() + transform->GetTranslation());
+}

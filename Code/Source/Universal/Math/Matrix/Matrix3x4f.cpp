@@ -6,66 +6,53 @@ namespace Uni::Math
 {
     Matrix3x4f Matrix3x4f::CreateIdentity()
     {
-        static constexpr float values[ElementCount] = {
-            1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-        };
+        static Matrix3x4f Identity = CreateFromRows(
+            { 1.0f, 0.0f, 0.0f, 0.0f },
+            { 0.0f, 1.0f, 0.0f, 0.0f },
+            { 0.0f, 0.0f, 1.0f, 0.0f });
 
-        return CreateFromRowMajorFloats(values);
+        return Identity;
     }
 
-    Matrix3x4f Matrix3x4f::CreateFromTranslation(const Vector3f& translation)
+    Matrix3x4f Matrix3x4f::CreateTranslation(const Vector3f& translation)
     {
-        const float values[ElementCount] = {
-            1.0f, 0.0f, 0.0f, translation.m_x,
-            0.0f, 1.0f, 0.0f, translation.m_y,
-            0.0f, 0.0f, 1.0f, translation.m_z,
-        };
-
-        return CreateFromRowMajorFloats(values);
+        return CreateFromRows(
+            { 1.0f, 0.0f, 0.0f, translation.m_x },
+            { 0.0f, 1.0f, 0.0f, translation.m_y },
+            { 0.0f, 0.0f, 1.0f, translation.m_z });
     }
 
-    Matrix3x4f Matrix3x4f::CreateFromRotationRadians(
+    Matrix3x4f Matrix3x4f::CreateRotationEulerRadians(
         float angle, Axis rotationAxis)
     {
-        float values[ElementCount] = { 0.0f };
-
         switch (rotationAxis)
         {
         case Axis::X:
-            values[0] = 1.0f;
-            values[5] = std::cos(angle);
-            values[6] = -std::sin(angle);
-            values[9] = std::sin(angle);
-            values[10] = std::cos(angle);
-            break;
+            return CreateFromRows(
+                { 1.0f, 0.0f, 0.0f, 0.0f },
+                { 0.0f, std::cos(angle), -std::sin(angle), 0.0f },
+                { 0.0f, std::sin(angle), std::cos(angle), 0.0f });
         case Axis::Y:
-            values[0] = std::cos(angle);
-            values[2] = std::sin(angle);
-            values[5] = 1.0f;
-            values[8] = -std::sin(angle);
-            values[10] = std::cos(angle);
-            break;
+            return CreateFromRows(
+                { std::cos(angle), 0.0f, std::sin(angle), 0.0f },
+                { 0.0f, 1.0f, 0.0f, 0.0f },
+                { -std::sin(angle), 0.0f, std::cos(angle), 0.0f });
         case Axis::Z:
-            values[0] = std::cos(angle);
-            values[1] = -std::sin(angle);
-            values[4] = std::sin(angle);
-            values[5] = std::cos(angle);
-            values[10] = 1.0f;
-            break;
+            return CreateFromRows(
+                { std::cos(angle), -std::sin(angle), 0.0f, 0.0f },
+                { std::sin(angle), std::cos(angle), 0.0f, 0.0f },
+                { 0.0f, 0.0f, 1.0f, 0.0f });
         }
-
-        return CreateFromRowMajorFloats(values);
     }
 
-    Matrix3x4f Matrix3x4f::CreateFromRotationDegrees(
+    Matrix3x4f Matrix3x4f::CreateRotationEulerDegrees(
         float angle, Axis rotationAxis)
     {
-        return CreateFromRotationRadians(
+        return CreateRotationEulerRadians(
             angle * (Constants::PI / 180.0f), rotationAxis);
     }
 
-    Matrix3x4f Matrix3x4f::CreateFromScale(const Vector3f& scale)
+    Matrix3x4f Matrix3x4f::CreateScale(const Vector3f& scale)
     {
         const float values[ElementCount] = {
             scale.m_x, 0.0f, 0.0f, 0.0f, 0.0f,      scale.m_y,
@@ -77,100 +64,120 @@ namespace Uni::Math
 
     Matrix3x4f Matrix3x4f::CreateFromRowMajorFloats(const float* values)
     {
+        return CreateFromRows(
+            { values[0], values[1], values[2], values[3] },
+            { values[4], values[5], values[6], values[7] },
+            { values[8], values[9], values[10], values[11] });
+    }
+
+    Matrix3x4f Matrix3x4f::CreateFromColumnMajorFloats(const float* values)
+    {
+        return CreateFromColumns(
+            { values[0], values[1], values[2] },
+            { values[3], values[4], values[5] },
+            { values[6], values[7], values[8] },
+            { values[9], values[10], values[11] });
+    }
+
+    Matrix3x4f Matrix3x4f::CreateFromRows(
+        const Vector4f& row0, const Vector4f& row1, const Vector4f& row2)
+    {
         Matrix3x4f matrix;
-        for (size_t i = 0; i < ElementCount; ++i)
-        {
-            matrix.m_values[i] = values[i];
-        }
+
+        matrix.m_rows[0] = row0;
+        matrix.m_rows[1] = row1;
+        matrix.m_rows[2] = row2;
+
         return matrix;
     }
 
-    float Matrix3x4f::operator()(size_t row, size_t column) const
+    Matrix3x4f Matrix3x4f::CreateFromColumns(
+        const Vector3f& column0,
+        const Vector3f& column1,
+        const Vector3f& column2,
+        const Vector3f& column3)
     {
-        return m_values[row * ColumnCount + column];
+        Matrix3x4f matrix;
+
+        matrix.m_rows[0].m_data[0] = column0.m_x;
+        matrix.m_rows[0].m_data[1] = column1.m_x;
+        matrix.m_rows[0].m_data[2] = column2.m_x;
+        matrix.m_rows[0].m_data[3] = column3.m_x;
+
+        matrix.m_rows[1].m_data[0] = column0.m_y;
+        matrix.m_rows[1].m_data[1] = column1.m_y;
+        matrix.m_rows[1].m_data[2] = column2.m_y;
+        matrix.m_rows[1].m_data[3] = column3.m_y;
+
+        matrix.m_rows[2].m_data[0] = column0.m_z;
+        matrix.m_rows[2].m_data[1] = column1.m_z;
+        matrix.m_rows[2].m_data[2] = column2.m_z;
+        matrix.m_rows[2].m_data[3] = column3.m_z;
+
+        return matrix;
     }
 
-    float& Matrix3x4f::operator()(size_t row, size_t column)
+    const Uni::Math::Vector4f& Matrix3x4f::GetRow(unsigned int index) const
     {
-        return m_values[row * ColumnCount + column];
+        return m_rows[index];
+    }
+
+    Uni::Math::Vector4f& Matrix3x4f::GetRow(unsigned int index)
+    {
+        return m_rows[index];
     }
 
     Vector3f Matrix3x4f::TransformVector3f(const Vector3f& vector) const
     {
         return {
-            (vector.m_x * m_values[0]) + (vector.m_y * m_values[1]) +
-                (vector.m_z * m_values[2]) + m_values[3],
-            (vector.m_x * m_values[4]) + (vector.m_y * m_values[5]) +
-                (vector.m_z * m_values[6]) + m_values[7],
-            (vector.m_x * m_values[8]) + (vector.m_y * m_values[9]) +
-                (vector.m_z * m_values[10]) + m_values[11],
+            m_rows[0].m_data[0] * vector.m_x +
+                m_rows[0].m_data[1] * vector.m_y +
+                m_rows[0].m_data[2] * vector.m_z + m_rows[0].m_data[3],
+            m_rows[1].m_data[0] * vector.m_x +
+                m_rows[1].m_data[1] * vector.m_y +
+                m_rows[1].m_data[2] * vector.m_z + m_rows[1].m_data[3],
+            m_rows[2].m_data[0] * vector.m_x +
+                m_rows[2].m_data[1] * vector.m_y +
+                m_rows[2].m_data[2] * vector.m_z + m_rows[2].m_data[3],
         };
     }
 
     Vector4f Matrix3x4f::TransformVector4f(const Vector4f& vector) const
     {
         return {
-            (vector.m_x * m_values[0]) + (vector.m_y * m_values[1]) +
-                (vector.m_z * m_values[2]) + (vector.m_w * m_values[3]),
-            (vector.m_x * m_values[4]) + (vector.m_y * m_values[5]) +
-                (vector.m_z * m_values[6]) + (vector.m_w * m_values[7]),
-            (vector.m_x * m_values[8]) + (vector.m_y * m_values[9]) +
-                (vector.m_z * m_values[10]) + (vector.m_w * m_values[11]),
+            m_rows[0].m_data[0] * vector.m_x +
+                m_rows[0].m_data[1] * vector.m_y +
+                m_rows[0].m_data[2] * vector.m_z +
+                m_rows[0].m_data[3] * vector.m_w,
+            m_rows[1].m_data[0] * vector.m_x +
+                m_rows[1].m_data[1] * vector.m_y +
+                m_rows[1].m_data[2] * vector.m_z +
+                m_rows[1].m_data[3] * vector.m_w,
+            m_rows[2].m_data[0] * vector.m_x +
+                m_rows[2].m_data[1] * vector.m_y +
+                m_rows[2].m_data[2] * vector.m_z +
+                m_rows[2].m_data[3] * vector.m_w,
             vector.m_w,
         };
     }
 
-    Matrix3x4f& Matrix3x4f::operator*=(const Matrix3x4f& other)
-    {
-        Matrix3x4f copy{ *this };
-
-        copy.m_values[0] = (m_values[0] * other.m_values[0]) +
-            (m_values[1] * other.m_values[4]) +
-            (m_values[2] * other.m_values[8]);
-        copy.m_values[1] = (m_values[0] * other.m_values[1]) +
-            (m_values[1] * other.m_values[5]) +
-            (m_values[2] * other.m_values[9]);
-        copy.m_values[2] = (m_values[0] * other.m_values[2]) +
-            (m_values[1] * other.m_values[6]) +
-            (m_values[2] * other.m_values[10]);
-        copy.m_values[3] = (m_values[0] * other.m_values[3]) +
-            (m_values[1] * other.m_values[7]) +
-            (m_values[2] * other.m_values[11]) + m_values[3];
-        copy.m_values[4] = (m_values[4] * other.m_values[0]) +
-            (m_values[5] * other.m_values[4]) +
-            (m_values[6] * other.m_values[8]);
-        copy.m_values[5] = (m_values[4] * other.m_values[1]) +
-            (m_values[5] * other.m_values[5]) +
-            (m_values[6] * other.m_values[9]);
-        copy.m_values[6] = (m_values[4] * other.m_values[2]) +
-            (m_values[5] * other.m_values[6]) +
-            (m_values[6] * other.m_values[10]);
-        copy.m_values[7] = (m_values[4] * other.m_values[3]) +
-            (m_values[5] * other.m_values[7]) +
-            (m_values[6] * other.m_values[11]) + m_values[7];
-        copy.m_values[8] = (m_values[8] * other.m_values[0]) +
-            (m_values[9] * other.m_values[4]) +
-            (m_values[10] * other.m_values[8]);
-        copy.m_values[9] = (m_values[8] * other.m_values[1]) +
-            (m_values[9] * other.m_values[5]) +
-            (m_values[10] * other.m_values[9]);
-        copy.m_values[10] = (m_values[8] * other.m_values[2]) +
-            (m_values[9] * other.m_values[6]) +
-            (m_values[10] * other.m_values[10]);
-        copy.m_values[11] = (m_values[8] * other.m_values[3]) +
-            (m_values[9] * other.m_values[7]) +
-            (m_values[10] * other.m_values[11]) + m_values[11];
-
-        (*this) = copy;
-        return *this;
-    }
-
     Matrix3x4f Matrix3x4f::operator*(const Matrix3x4f& other) const
     {
-        Matrix3x4f matrix{ *this };
-        matrix *= other;
+        Matrix3x4f result;
 
-        return matrix;
+        for (size_t row = 0; row < 3; ++row)
+        {
+            for (size_t column = 0; column < 4; ++column)
+            {
+                result.m_rows[row].m_data[column] =
+                    m_rows[row].m_data[0] * other.m_rows[0].m_data[column] +
+                    m_rows[row].m_data[1] * other.m_rows[1].m_data[column] +
+                    m_rows[row].m_data[2] * other.m_rows[2].m_data[column] +
+                    m_rows[row].m_data[3] * (column == 3 ? 1.0f : 0.0f);
+            }
+        }
+
+        return result;
     }
 
     Vector3f Matrix3x4f::operator*(const Vector3f& vector) const
@@ -181,5 +188,10 @@ namespace Uni::Math
     Vector4f Matrix3x4f::operator*(const Vector4f& vector) const
     {
         return TransformVector4f(vector);
+    }
+
+    Matrix3x4f& Matrix3x4f::operator*=(const Matrix3x4f& other)
+    {
+        return *this = *this * other;
     }
 } // namespace Uni::Math

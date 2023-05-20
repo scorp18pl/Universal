@@ -13,7 +13,7 @@ namespace Uni::Math
 
     TEST(Vector2fTest, CreateFromFloat)
     {
-        Vector2f vector = Vector2f::CreateFromFloat(3.0f);
+        Vector2f vector = Vector2f(3.0f);
         EXPECT_FLOAT_EQ(vector.m_x, 3.0f);
         EXPECT_FLOAT_EQ(vector.m_y, 3.0f);
     }

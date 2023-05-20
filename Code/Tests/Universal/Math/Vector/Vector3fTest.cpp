@@ -13,7 +13,7 @@ TEST(Vector3fTest, CreateZero)
 
 TEST(Vector3fTest, CreateFromFloat)
 {
-    Uni::Math::Vector3f vector = Uni::Math::Vector3f::CreateFromFloat(1.0f);
+    Uni::Math::Vector3f vector = Uni::Math::Vector3f(1.0f);
 
     EXPECT_EQ(vector.m_x, 1.0f);
     EXPECT_EQ(vector.m_y, 1.0f);
@@ -46,12 +46,15 @@ TEST(Vector3fTest, GetLength)
 
 TEST(Vector3fTest, GetNormalized)
 {
-    Uni::Math::Vector3f vector = { 1.0f, 2.0f, 3.0f };
+    const float epsilon = 1e-4f;
+
+    Uni::Math::Vector3f vector = { -0.3819f, -0.2594f, -0.8871f };
     Uni::Math::Vector3f normalizedVector = vector.GetNormalized();
 
-    float length = normalizedVector.GetLength();
-    float epsilon = 1e-4f;
-    EXPECT_NEAR(length, 1.0f, epsilon);
+    EXPECT_NEAR(normalizedVector.GetLength(), 1.0f, epsilon);
+    EXPECT_LT(normalizedVector.m_x, 0.0f);
+    EXPECT_LT(normalizedVector.m_y, 0.0f);
+    EXPECT_LT(normalizedVector.m_z, 0.0f);
 }
 
 TEST(Vector3fTest, DotProduct)
@@ -59,14 +62,14 @@ TEST(Vector3fTest, DotProduct)
     Uni::Math::Vector3f vector1 = { 1.0f, 2.0f, 3.0f };
     Uni::Math::Vector3f vector2 = { 4.0f, 5.0f, 6.0f };
 
-    EXPECT_EQ(vector1.DotProduct(vector2), 32.0f);
+    EXPECT_EQ(vector1.GetDotProduct(vector2), 32.0f);
 }
 
 TEST(Vector3fTest, CrossProduct)
 {
     Uni::Math::Vector3f vector1 = { 1.0f, 2.0f, 3.0f };
     Uni::Math::Vector3f vector2 = { 4.0f, 5.0f, 6.0f };
-    Uni::Math::Vector3f crossProduct = vector1.CrossProduct(vector2);
+    Uni::Math::Vector3f crossProduct = vector1.GetCrossProduct(vector2);
 
     EXPECT_EQ(crossProduct.m_x, -3.0f);
     EXPECT_EQ(crossProduct.m_y, 6.0f);

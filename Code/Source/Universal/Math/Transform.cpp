@@ -1,21 +1,22 @@
 #include <Universal/Math/Transform.h>
+#include <Universal/Math/Matrix/Matrix3x4f.h>
 
 namespace Uni::Math
 {
     Transform::Transform(
-        Uni::Math::Matrix3x4f rotation,
+        Quaternion rotation,
         Uni::Math::Vector3f scale,
         Uni::Math::Vector3f translation)
         : m_scale(scale)
-        , m_transform(rotation)
+        , m_rotation(rotation)
         , m_translation(translation)
     {
-        UpdateTransform();
     }
 
-    const Matrix3x4f& Transform::GetMatrix() const
+    Matrix3x4f Transform::GetMatrix() const
     {
-        return m_transform;
+        return Matrix3x4f::CreateTranslation(m_translation) *
+            m_rotation.GetMatrix() * Matrix3x4f::CreateScale(m_scale);
     }
 
     const Vector3f& Transform::GetTranslation() const
@@ -23,7 +24,7 @@ namespace Uni::Math
         return m_translation;
     }
 
-    const Matrix3x4f& Transform::GetRotation() const
+    const Quaternion& Transform::GetRotation() const
     {
         return m_rotation;
     }
@@ -50,7 +51,6 @@ namespace Uni::Math
             transform.m_rotation = current->m_rotation * transform.m_rotation;
             transform.m_scale *= current->m_scale;
         }
-        transform.UpdateTransform();
 
         return transform;
     }
@@ -58,19 +58,16 @@ namespace Uni::Math
     void Transform::SetTranslation(const Vector3f& translation)
     {
         m_translation = translation;
-        UpdateTransform();
     }
 
-    void Transform::SetRotation(const Matrix3x4f& rotation)
+    void Transform::SetRotation(const Quaternion& rotation)
     {
         m_rotation = rotation;
-        UpdateTransform();
     }
 
     void Transform::SetScale(const Vector3f& scale)
     {
         m_scale = scale;
-        UpdateTransform();
     }
 
     void Transform::SetParent(Transform* parent)
@@ -81,24 +78,15 @@ namespace Uni::Math
     void Transform::Translate(const Vector3f& translation)
     {
         m_translation += translation;
-        UpdateTransform();
     }
 
-    void Transform::Rotate(const Matrix3x4f& rotation)
+    void Transform::Rotate(const Quaternion& rotation)
     {
         m_rotation = rotation * m_rotation;
-        UpdateTransform();
     }
 
     void Transform::Scale(const Vector3f& scale)
     {
         m_scale *= scale;
-        UpdateTransform();
-    }
-
-    void Transform::UpdateTransform()
-    {
-        m_transform = Matrix3x4f::CreateFromTranslation(m_translation) *
-            m_rotation * Matrix3x4f::CreateFromScale(m_scale);
     }
 } // namespace Uni::Math

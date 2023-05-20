@@ -19,56 +19,46 @@ TEST(Matrix3x4fTest, CreateIdentity)
         {
             if (row == col)
             {
-                EXPECT_NEAR(identity(row, col), 1.0f, epsilon);
+                EXPECT_NEAR(identity.GetRow(row).m_data[col], 1.0f, epsilon);
             }
             else
             {
-                EXPECT_NEAR(identity(row, col), 0.0f, epsilon);
+                EXPECT_NEAR(identity.GetRow(row).m_data[col], 0.0f, epsilon);
             }
         }
     }
 }
 
-TEST(Matrix3x4fTest, CreateFromRotationRadians)
+TEST(Matrix3x4fTest, CreateRotationEulerRadians)
 {
     float angle = Uni::Math::Constants::PI / 2.0f; // 90 degrees in radians
-    Matrix3x4f matrix = Matrix3x4f::CreateFromRotationRadians(angle, Axis::Z);
+    Matrix3x4f matrix = Matrix3x4f::CreateRotationEulerRadians(angle, Axis::Z);
 
     // Check that the matrix represents the correct rotation
-    EXPECT_FLOAT_EQ(matrix(0, 0), std::cos(angle));
-    EXPECT_FLOAT_EQ(matrix(0, 1), -std::sin(angle));
-    EXPECT_FLOAT_EQ(matrix(1, 0), std::sin(angle));
-    EXPECT_FLOAT_EQ(matrix(1, 1), std::cos(angle));
+    EXPECT_FLOAT_EQ(matrix.GetRow(0).m_data[0], std::cos(angle));
+    EXPECT_FLOAT_EQ(matrix.GetRow(0).m_data[1], -std::sin(angle));
+    EXPECT_FLOAT_EQ(matrix.GetRow(1).m_data[0], std::sin(angle));
+    EXPECT_FLOAT_EQ(matrix.GetRow(1).m_data[1], std::cos(angle));
 }
 
-TEST(Matrix3x4fTest, CreateFromRotationDegrees)
+TEST(Matrix3x4fTest, CreateRotationEulerDegrees)
 {
     float angle = 45.0f; // 45 degrees
-    Matrix3x4f matrix = Matrix3x4f::CreateFromRotationDegrees(angle, Axis::Z);
+    Matrix3x4f matrix = Matrix3x4f::CreateRotationEulerDegrees(angle, Axis::Z);
+
+    float angleRadians = angle * Uni::Math::Constants::PI / 180.0f;
 
     // Check that the matrix represents the correct rotation
-    EXPECT_NEAR(
-        matrix(0, 0),
-        std::cos(angle * Uni::Math::Constants::PI / 180.0f),
-        epsilon);
-    EXPECT_NEAR(
-        matrix(0, 1),
-        -std::sin(angle * Uni::Math::Constants::PI / 180.0f),
-        epsilon);
-    EXPECT_NEAR(
-        matrix(1, 0),
-        std::sin(angle * Uni::Math::Constants::PI / 180.0f),
-        epsilon);
-    EXPECT_NEAR(
-        matrix(1, 1),
-        std::cos(angle * Uni::Math::Constants::PI / 180.0f),
-        epsilon);
+    EXPECT_FLOAT_EQ(matrix.GetRow(0).m_data[0], std::cos(angleRadians));
+    EXPECT_FLOAT_EQ(matrix.GetRow(0).m_data[1], -std::sin(angleRadians));
+    EXPECT_FLOAT_EQ(matrix.GetRow(1).m_data[0], std::sin(angleRadians));
+    EXPECT_FLOAT_EQ(matrix.GetRow(1).m_data[1], std::cos(angleRadians));
 }
 
-TEST(Matrix3x4fTest, CreateFromScale)
+TEST(Matrix3x4fTest, CreateScale)
 {
     Vector3f scale(2.0f, 3.0f, 4.0f);
-    Matrix3x4f matrix = Matrix3x4f::CreateFromScale(scale);
+    Matrix3x4f matrix = Matrix3x4f::CreateScale(scale);
 
     const Vector3f scaledVector = matrix * Vector3f(1.0f, 1.0f, 1.0f);
 
@@ -88,14 +78,15 @@ TEST(Matrix3x4fTest, CreateFromRowMajorFloats)
     {
         for (size_t col = 0; col < 4; ++col)
         {
-            EXPECT_NEAR(matrix(row, col), values[row * 4 + col], epsilon);
+            EXPECT_FLOAT_EQ(
+                matrix.GetRow(row).m_data[col], values[row * 4 + col]);
         }
     }
 }
 
 TEST(Matrix3x4fTest, TransformVector3f)
 {
-    Matrix3x4f scaleMatrix = Matrix3x4f::CreateFromScale({ 2.0f, 3.0f, 4.0f });
+    Matrix3x4f scaleMatrix = Matrix3x4f::CreateScale({ 2.0f, 3.0f, 4.0f });
     Vector3f vector(1.0f, 2.0f, 3.0f);
     Vector3f transformedVector = scaleMatrix * vector;
 
@@ -108,7 +99,7 @@ TEST(Matrix3x4fTest, TransformVector3f)
 TEST(Matrix3x4fTest, TransformVector4f)
 {
     Matrix3x4f translationMatrix =
-        Matrix3x4f::CreateFromTranslation({ 1.0f, 2.0f, 3.0f });
+        Matrix3x4f::CreateTranslation({ 1.0f, 2.0f, 3.0f });
     Vector4f vector(1.0f, 2.0f, 3.0f, 1.0f);
     Vector4f transformedVector = translationMatrix * vector;
 
@@ -142,7 +133,9 @@ TEST(Matrix3x4fTest, MatrixMultiplication)
         for (size_t col = 0; col < 4; ++col)
         {
             EXPECT_NEAR(
-                resultMatrix(row, col), expectedValues[row * 4 + col], epsilon);
+                resultMatrix.GetRow(row).m_data[col],
+                expectedValues[row * 4 + col],
+                epsilon);
         }
     }
 }
@@ -158,35 +151,35 @@ TEST(Matrix3x4fTest, OperatorParentheses)
     {
         for (size_t col = 0; col < 4; ++col)
         {
-            EXPECT_NEAR(matrix(row, col), row * 4 + col + 1, epsilon);
+            EXPECT_FLOAT_EQ(
+                matrix.GetRow(row).m_data[col], values[row * 4 + col]);
         }
     }
 }
 
 TEST(Matrix3x4fTest, RotateAndTranslate)
 {
-    float angle = 45.0f; // 45 degrees
+    float angle = 90.0f; // 45 degrees
     Matrix3x4f rotationMatrix1 =
-        Matrix3x4f::CreateFromRotationDegrees(angle, Axis::Z);
+        Matrix3x4f::CreateRotationEulerDegrees(angle, Axis::Z);
 
     Matrix3x4f rotationMatrix2 =
-        Matrix3x4f::CreateFromRotationDegrees(angle, Axis::Y);
+        Matrix3x4f::CreateRotationEulerDegrees(angle, Axis::Y);
 
     Matrix3x4f rotationMatrix3 =
-        Matrix3x4f::CreateFromRotationDegrees(angle, Axis::X);
+        Matrix3x4f::CreateRotationEulerDegrees(angle, Axis::X);
 
     Matrix3x4f translationMatrix =
-        Matrix3x4f::CreateFromTranslation({ 1.0f, 2.0f, 3.0f });
+        Matrix3x4f::CreateTranslation({ 1.0f, 2.0f, 3.0f });
 
-    Matrix3x4f combinedMatrix = translationMatrix * rotationMatrix1;
+    Matrix3x4f combinedMatrix =
+        translationMatrix * rotationMatrix3 * rotationMatrix2 * rotationMatrix1;
 
     Vector3f vector(1.0f, 0.0f, 0.0f);
     Vector3f transformedVector = combinedMatrix * vector;
 
     // Check that the vector was rotated and translated correctly
-    float cosAngle = std::cos(angle * Uni::Math::Constants::PI / 180.0f);
-    float sinAngle = std::sin(angle * Uni::Math::Constants::PI / 180.0f);
-    EXPECT_NEAR(transformedVector.m_x, cosAngle + 1.0f, epsilon);
-    EXPECT_NEAR(transformedVector.m_y, sinAngle + 2.0f, epsilon);
-    EXPECT_NEAR(transformedVector.m_z, vector.m_z + 3.0f, epsilon);
+    EXPECT_NEAR(transformedVector.m_x, 1.0f, epsilon);
+    EXPECT_NEAR(transformedVector.m_y, 2.0f, epsilon);
+    EXPECT_NEAR(transformedVector.m_z, 4.0f, epsilon);
 }

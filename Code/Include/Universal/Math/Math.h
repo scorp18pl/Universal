@@ -8,6 +8,8 @@ namespace Uni::Math
         constexpr float PI = 3.14159265359f;
         constexpr float HalfPI = 1.57079632679f;
         constexpr float TwoPI = 6.28318530718;
+        constexpr float DegToRad = PI / 180.0f;
+        constexpr float RadToDeg = 180.0f / PI;
     } // namespace Constants
 
     float Q_rsqrt(float number);

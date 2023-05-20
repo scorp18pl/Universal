@@ -14,7 +14,7 @@ TEST(Vector4fTest, CreateZero) {
 
 TEST(Vector4fTest, CreateFromFloat) {
     float value = 3.0f;
-    Vector4f vector = Vector4f::CreateFromFloat(value);
+    Vector4f vector = Vector4f{value};
     EXPECT_FLOAT_EQ(vector.m_x, value);
     EXPECT_FLOAT_EQ(vector.m_y, value);
     EXPECT_FLOAT_EQ(vector.m_z, value);

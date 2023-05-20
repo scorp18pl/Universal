@@ -2,3 +2,5 @@
 build
 logs
 python/tools/graphs
+cmake-build-debug
+cmake-build-release

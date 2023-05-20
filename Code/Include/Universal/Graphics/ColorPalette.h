@@ -22,11 +22,8 @@ namespace Uni::Grpx
 
     private:
         static Color CreateColorFromHex(const std::string& hexString);
-        static Color CreateColorFromRgb(const std::string& rgbString);
 
         static ColorPalette LoadFromHexFile(const std::string& fileName);
-        static ColorPalette LoadFromGplFile(const std::string& fileName);
-        static ColorPalette LoadFromPalFile(const std::string& fileName);
 
         std::vector<Color> m_colors;
         std::string m_name;

@@ -4,8 +4,7 @@ namespace Uni::Math
 {
     BoundingBox2D BoundingBox2D::CreateInvalid()
     {
-        return { Vector2f::CreateFromFloat(1.0f),
-                 Vector2f::CreateFromFloat(-1.0f) };
+        return { Vector2f{ 1.0f }, Vector2f{ -1.0f } };
     }
 
     BoundingBox2D BoundingBox2D::CreateFromDimensions(

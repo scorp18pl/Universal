@@ -52,7 +52,7 @@ add_library(universal STATIC
         Code/Include/Universal/Math/Matrix/Matrix2x3f.h
         Code/Source/Universal/Math/Matrix/Matrix2x3f.cpp
         3rdParty/Include/stb/stb_image.h
-        Code/Source/Universal/System/Clock.cpp Code/Include/Universal/System/Clock.h Code/Source/Universal/Math/Vector/Vector4f.cpp Code/Include/Universal/Math/Vector/Vector4f.h Code/Source/Universal/Math/Matrix/Matrix3x4f.cpp Code/Include/Universal/Math/Matrix/Matrix3x4f.h Code/Source/Universal/Math/Transform.cpp Code/Include/Universal/Math/Transform.h Code/Source/Universal/Graphics/ColorPalette.cpp Code/Include/Universal/Graphics/ColorPalette.h)
+        Code/Source/Universal/System/Clock.cpp Code/Include/Universal/System/Clock.h Code/Source/Universal/Math/Vector/Vector4f.cpp Code/Include/Universal/Math/Vector/Vector4f.h Code/Source/Universal/Math/Matrix/Matrix3x4f.cpp Code/Include/Universal/Math/Matrix/Matrix3x4f.h Code/Source/Universal/Math/Transform.cpp Code/Include/Universal/Math/Transform.h Code/Source/Universal/Graphics/ColorPalette.cpp Code/Include/Universal/Graphics/ColorPalette.h Code/Source/Universal/Math/Quaternion.cpp Code/Include/Universal/Math/Quaternion.h)
 
 target_include_directories(universal
         PUBLIC Code/Include
