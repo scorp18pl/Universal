@@ -42,7 +42,7 @@ namespace Uni::Math
             const Vector3f& column2,
             const Vector3f& column3);
 
-        Matrix3x4f() = default;
+        Matrix3x4f();
         Matrix3x4f(const Matrix3x4f& other) = default;
         Matrix3x4f(Matrix3x4f&& other) = default;
         ~Matrix3x4f() = default;

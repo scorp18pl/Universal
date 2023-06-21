@@ -117,6 +117,15 @@ namespace Uni::Math
         return matrix;
     }
 
+    Matrix3x4f::Matrix3x4f()
+    {
+        // TODO - The CreateIdentity function should be used here (infinite
+        // recursion).
+        m_rows[0] = { 1.0f, 0.0f, 0.0f, 0.0f };
+        m_rows[1] = { 0.0f, 1.0f, 0.0f, 0.0f };
+        m_rows[2] = { 0.0f, 0.0f, 1.0f, 0.0f };
+    }
+
     const Uni::Math::Vector4f& Matrix3x4f::GetRow(unsigned int index) const
     {
         return m_rows[index];
