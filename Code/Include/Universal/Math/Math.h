@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdexcept>
+
 namespace Uni::Math
 {
     namespace Constants
@@ -11,6 +13,16 @@ namespace Uni::Math
         constexpr float DegToRad = PI / 180.0f;
         constexpr float RadToDeg = 180.0f / PI;
     } // namespace Constants
+
+    template<typename T>
+    bool IsInRange(T value, T min, T max)
+    {
+        if (min > max)
+        {
+            throw std::invalid_argument("min > max");
+        }
+        return (value >= min) && (value <= max);
+    }
 
     float Q_rsqrt(float number);
     float FMod(float x, float y);

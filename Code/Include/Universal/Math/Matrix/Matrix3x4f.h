@@ -1,17 +1,12 @@
 #pragma once
 
+#include <Universal/Math/Matrix/Matrix4x4f.h>
 #include <Universal/Math/Vector/Vector3f.h>
 #include <Universal/Math/Vector/Vector4f.h>
 
 namespace Uni::Math
 {
-    enum class Axis
-    {
-        X,
-        Y,
-        Z,
-    };
-
+    //! A generic 3x4 matrix class with float components.
     class Matrix3x4f
     {
     private:
@@ -42,13 +37,16 @@ namespace Uni::Math
             const Vector3f& column2,
             const Vector3f& column3);
 
-        Matrix3x4f();
+        Matrix3x4f() = default;
         Matrix3x4f(const Matrix3x4f& other) = default;
         Matrix3x4f(Matrix3x4f&& other) = default;
         ~Matrix3x4f() = default;
 
-        [[nodiscard]] const Uni::Math::Vector4f& GetRow(unsigned int index) const;
-        Uni::Math::Vector4f& GetRow(unsigned int index);
+        [[nodiscard]] const Uni::Math::Vector4f& GetRow(
+            unsigned int index) const;
+        Vector4f& GetRow(unsigned int index);
+
+        Matrix4x4f ToMatrix4x4f() const;
 
         [[nodiscard]] Vector3f TransformVector3f(const Vector3f& vector) const;
         [[nodiscard]] Vector4f TransformVector4f(const Vector4f& vector) const;
@@ -62,6 +60,6 @@ namespace Uni::Math
         Matrix3x4f& operator*=(const Matrix3x4f& other);
 
     private:
-        Uni::Math::Vector4f m_rows[RowCount];
+        Vector4f m_rows[RowCount];
     };
 } // namespace Uni::Math

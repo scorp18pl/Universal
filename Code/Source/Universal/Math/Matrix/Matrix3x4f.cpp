@@ -6,60 +6,31 @@ namespace Uni::Math
 {
     Matrix3x4f Matrix3x4f::CreateIdentity()
     {
-        static Matrix3x4f Identity = CreateFromRows(
-            { 1.0f, 0.0f, 0.0f, 0.0f },
-            { 0.0f, 1.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 1.0f, 0.0f });
-
-        return Identity;
+        return Matrix4x4f::CreateIdentity().ToMatrix3x4f();
     }
 
     Matrix3x4f Matrix3x4f::CreateTranslation(const Vector3f& translation)
     {
-        return CreateFromRows(
-            { 1.0f, 0.0f, 0.0f, translation.m_x },
-            { 0.0f, 1.0f, 0.0f, translation.m_y },
-            { 0.0f, 0.0f, 1.0f, translation.m_z });
+        return Matrix4x4f::CreateTranslation(translation).ToMatrix3x4f();
     }
 
     Matrix3x4f Matrix3x4f::CreateRotationEulerRadians(
         float angle, Axis rotationAxis)
     {
-        switch (rotationAxis)
-        {
-        case Axis::X:
-            return CreateFromRows(
-                { 1.0f, 0.0f, 0.0f, 0.0f },
-                { 0.0f, std::cos(angle), -std::sin(angle), 0.0f },
-                { 0.0f, std::sin(angle), std::cos(angle), 0.0f });
-        case Axis::Y:
-            return CreateFromRows(
-                { std::cos(angle), 0.0f, std::sin(angle), 0.0f },
-                { 0.0f, 1.0f, 0.0f, 0.0f },
-                { -std::sin(angle), 0.0f, std::cos(angle), 0.0f });
-        case Axis::Z:
-            return CreateFromRows(
-                { std::cos(angle), -std::sin(angle), 0.0f, 0.0f },
-                { std::sin(angle), std::cos(angle), 0.0f, 0.0f },
-                { 0.0f, 0.0f, 1.0f, 0.0f });
-        }
+        return Matrix4x4f::CreateRotationEulerRadians(angle, rotationAxis)
+            .ToMatrix3x4f();
     }
 
     Matrix3x4f Matrix3x4f::CreateRotationEulerDegrees(
         float angle, Axis rotationAxis)
     {
-        return CreateRotationEulerRadians(
-            angle * (Constants::PI / 180.0f), rotationAxis);
+        return Matrix4x4f::CreateRotationEulerDegrees(angle, rotationAxis)
+            .ToMatrix3x4f();
     }
 
     Matrix3x4f Matrix3x4f::CreateScale(const Vector3f& scale)
     {
-        const float values[ElementCount] = {
-            scale.m_x, 0.0f, 0.0f, 0.0f, 0.0f,      scale.m_y,
-            0.0f,      0.0f, 0.0f, 0.0f, scale.m_z, 0.0f,
-        };
-
-        return CreateFromRowMajorFloats(values);
+        return Matrix4x4f::CreateScale(scale).ToMatrix3x4f();
     }
 
     Matrix3x4f Matrix3x4f::CreateFromRowMajorFloats(const float* values)
@@ -117,15 +88,6 @@ namespace Uni::Math
         return matrix;
     }
 
-    Matrix3x4f::Matrix3x4f()
-    {
-        // TODO - The CreateIdentity function should be used here (infinite
-        // recursion).
-        m_rows[0] = { 1.0f, 0.0f, 0.0f, 0.0f };
-        m_rows[1] = { 0.0f, 1.0f, 0.0f, 0.0f };
-        m_rows[2] = { 0.0f, 0.0f, 1.0f, 0.0f };
-    }
-
     const Uni::Math::Vector4f& Matrix3x4f::GetRow(unsigned int index) const
     {
         return m_rows[index];
@@ -134,6 +96,12 @@ namespace Uni::Math
     Uni::Math::Vector4f& Matrix3x4f::GetRow(unsigned int index)
     {
         return m_rows[index];
+    }
+
+    Matrix4x4f Matrix3x4f::ToMatrix4x4f() const
+    {
+        return Matrix4x4f::CreateFromRows(
+            m_rows[0], m_rows[1], m_rows[2], { 0.0f, 0.0f, 0.0f, 1.0f });
     }
 
     Vector3f Matrix3x4f::TransformVector3f(const Vector3f& vector) const
@@ -174,9 +142,9 @@ namespace Uni::Math
     {
         Matrix3x4f result;
 
-        for (size_t row = 0; row < 3; ++row)
+        for (size_t row = 0; row < RowCount; ++row)
         {
-            for (size_t column = 0; column < 4; ++column)
+            for (size_t column = 0; column < ColumnCount; ++column)
             {
                 result.m_rows[row].m_data[column] =
                     m_rows[row].m_data[0] * other.m_rows[0].m_data[column] +
