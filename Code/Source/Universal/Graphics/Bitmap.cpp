@@ -32,7 +32,7 @@ namespace Uni::Grpx
             data,
             static_cast<size_t>(width),
             static_cast<size_t>(height),
-            Utils::GetChannelFlags(static_cast<size_t>(channels))
+            Utils::GetChannelFlags(static_cast<size_t>(channels)),
         };
     }
 
@@ -104,5 +104,82 @@ namespace Uni::Grpx
     size_t Bitmap::GetPixelIndex(size_t x, size_t y) const
     {
         return GetStride() * y + x * GetPixelSize();
+    }
+
+    Color Bitmap::GetPixelColor(size_t x, size_t y) const
+    {
+        float r, g, b, a;
+        r = g = b = a = 1.0f;
+        const uint8_t* pixelData = &GetData()[GetPixelIndex(x, y)];
+
+        if (m_pixelFlags & Channel::Flags::Rgb16)
+        {
+            throw std::runtime_error("16-bit color not supported yet.");
+            return Color::White;
+        }
+
+        r = static_cast<float>(pixelData[0]) / 255.0f;
+        if (m_pixelFlags & Channel::Flags::GreyScale)
+        {
+            g = b = r;
+        }
+        else
+        {
+            g = static_cast<float>(pixelData[1]) / 255.0f;
+            b = static_cast<float>(pixelData[2]) / 255.0f;
+        }
+
+        if (m_pixelFlags & Channel::Flags::Alpha)
+        {
+            a = static_cast<float>(pixelData[3]) / 255.0f;
+        }
+
+        return Color::CreateFromFloats(r, g, b, a);
+    }
+
+    void Bitmap::SetPixelColor(size_t x, size_t y, const Color& color)
+    {
+        uint8_t* pixelData = &GetData()[GetPixelIndex(x, y)];
+
+        if (m_pixelFlags & Channel::Flags::Rgb16)
+        {
+            throw std::runtime_error("16-bit color not supported yet.");
+        }
+
+        unsigned int alphaIndex = -1U;
+        if (m_pixelFlags & Channel::Flags::GreyScale)
+        {
+            const float Average =
+                (color.GetRed() + color.GetGreen() + color.GetBlue()) / 3.0f;
+            pixelData[0] = static_cast<uint8_t>(Average * 255.0f);
+            alphaIndex = 1U;
+        }
+        else
+        {
+            pixelData[0] = static_cast<uint8_t>(color.GetRed() * 255.0f);
+            pixelData[1] = static_cast<uint8_t>(color.GetGreen() * 255.0f);
+            pixelData[2] = static_cast<uint8_t>(color.GetBlue() * 255.0f);
+            alphaIndex = 3U;
+        }
+
+        if (m_pixelFlags & Channel::Flags::Alpha)
+        {
+            pixelData[alphaIndex] =
+                static_cast<uint8_t>(color.GetAlpha() * 255.0f);
+        }
+    }
+
+    Bitmap& Bitmap::operator=(const Bitmap& other)
+    {
+        if (this != &other)
+        {
+            m_width = other.m_width;
+            m_height = other.m_height;
+            m_pixelFlags = other.m_pixelFlags;
+            m_pixelSize = other.m_pixelSize;
+            Buffer::operator=(other);
+        }
+
+        return *this;
     }
 } // namespace Uni::Grpx

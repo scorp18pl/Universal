@@ -44,7 +44,7 @@ float Uni::Grpx::Color::GetRed() const
     return m_x;
 }
 
-float Uni::Grpx::Color::GetGreed() const
+float Uni::Grpx::Color::GetGreen() const
 {
     return m_y;
 }

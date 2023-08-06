@@ -5,7 +5,7 @@ namespace Uni::Grpx::Utils
 {
     size_t CalculatePixelSize(Channel::Flags flags)
     {
-        size_t elementSize = flags & Channel::Flags::RGB16
+        size_t elementSize = flags & Channel::Flags::Rgb16
             ? sizeof(Channel::Type16bit)
             : sizeof(Channel::Type8bit);
 
@@ -29,7 +29,7 @@ namespace Uni::Grpx::Utils
             return sizeof(Channel::Type8bit);
         }
 
-        return flags & Channel::Flags::RGB16 ? sizeof(Channel::Type16bit)
+        return flags & Channel::Flags::Rgb16 ? sizeof(Channel::Type16bit)
                                              : sizeof(Channel::Type8bit);
     }
 

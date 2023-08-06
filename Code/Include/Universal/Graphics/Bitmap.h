@@ -2,6 +2,7 @@
 
 #include <Universal/Graphics/Buffer.h>
 #include <Universal/Graphics/Channel.h>
+#include <Universal/Graphics/Color.h>
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -39,8 +40,11 @@ namespace Uni::Grpx
         [[nodiscard]] size_t GetStride() const;
         [[nodiscard]] Channel::Flags GetPixelFlags() const;
         [[nodiscard]] size_t GetPixelIndex(size_t x, size_t y) const;
+        Color GetPixelColor(size_t x, size_t y) const;
 
-        Bitmap& operator=(const Bitmap& other) = default;
+        void SetPixelColor(size_t x, size_t y, const Color& color);
+
+        Bitmap& operator=(const Bitmap& other);
 
     private:
         size_t m_width{0LU};

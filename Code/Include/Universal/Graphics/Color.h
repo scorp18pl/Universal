@@ -30,7 +30,7 @@ namespace Uni::Grpx
         ~Color() = default;
 
         [[nodiscard]] float GetRed() const;
-        [[nodiscard]] float GetGreed() const;
+        [[nodiscard]] float GetGreen() const;
         [[nodiscard]] float GetBlue() const;
         [[nodiscard]] float GetAlpha() const;
 

@@ -17,7 +17,7 @@ namespace Uni::Grpx::Channel
         None = 0b00000000,
         GreyScale =
             0b00000001, //!< If enabled, Green and Blue channels are not used.
-        RGB16 = 0b00000010, //!< If enabled uses 16 bits for the Red Green
+        Rgb16 = 0b00000010, //!< If enabled uses 16 bits for the Red Green
                             //!< and Blue channels, if not uses 8 bits.
         Alpha = 0b00000100, //!< Enables the alpha channel (8 bits).
         Invalid = 0b11111111,   //!< Invalid value.

@@ -19,6 +19,7 @@ namespace Uni::Grpx
         ~Buffer();
 
         StoredType* GetData();
+        [[nodiscard]] const StoredType* GetData() const;
         [[nodiscard]] size_t GetSize() const;
 
         Buffer& operator=(const Buffer& other);
@@ -66,6 +67,12 @@ namespace Uni::Grpx
     }
 
     template<typename StoredType>
+    const StoredType* Buffer<StoredType>::GetData() const
+    {
+        return m_data;
+    }
+
+    template<typename StoredType>
     StoredType* Buffer<StoredType>::GetData()
     {
         return m_data;
@@ -84,6 +91,12 @@ namespace Uni::Grpx
         if (this != &other)
         {
             m_size = other.m_size;
+            if (m_data)
+            {
+                delete[] m_data;
+            }
+            m_data = new uint8_t[m_size];
+
             std::memcpy(m_data, other.m_data, m_size);
         }
         return *this;
