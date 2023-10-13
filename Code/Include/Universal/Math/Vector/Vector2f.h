@@ -10,10 +10,10 @@ namespace Uni::Math
     //! A generic 2D vector class with float components.
     struct Vector2f
     {
-        union
-        {
+        union {
             float m_data[2];
-            struct{
+            struct
+            {
                 float m_x, m_y;
             };
         };
@@ -34,7 +34,7 @@ namespace Uni::Math
         [[nodiscard]] Vector2f GetNormalized() const;
         [[nodiscard]] Vector2f GetMod(const Vector2f& other) const;
 
-        float Dot(const Vector2f& vector) const;
+        [[nodiscard]] float Dot(const Vector2f& vector) const;
 
         Vector2f& operator=(const Vector2f& other) = default;
 
@@ -57,7 +57,7 @@ namespace Uni::Math
         Vector2f& operator*=(const Vector2f& other);
         Vector2f& operator/=(const Vector2f& other);
 
-        friend Vector2f operator-(const Vector2f &vector);
-        friend Vector2f operator*(float lhs, const Vector2f &rhs);
+        friend Vector2f operator-(const Vector2f& vector);
+        friend Vector2f operator*(float lhs, const Vector2f& rhs);
     };
 } // namespace Uni::Math

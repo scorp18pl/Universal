@@ -9,7 +9,7 @@ AlignOperands: false
 AlignTrailingComments: false
 AllowAllArgumentsOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortFunctionsOnASingleLine: None
+AllowShortFunctionsOnASingleLine: All
 AllowShortLambdasOnASingleLine: None
 AlwaysBreakAfterReturnType: None
 AlwaysBreakTemplateDeclarations: true

@@ -41,8 +41,8 @@ namespace Uni::Math
         [[nodiscard]] const Uni::Math::Vector3f& GetRow(unsigned int index) const;
         Uni::Math::Vector3f& GetRow(unsigned int index);
 
-        Vector2f TransformVector2f(const Vector2f& vector) const;
-        Vector3f TransformVector3f(const Vector3f& vector) const;
+        [[nodiscard]] Vector2f TransformVector2f(const Vector2f& vector) const;
+        [[nodiscard]] Vector3f TransformVector3f(const Vector3f& vector) const;
 
         Matrix2x3f& operator=(const Matrix2x3f& other) = default;
 

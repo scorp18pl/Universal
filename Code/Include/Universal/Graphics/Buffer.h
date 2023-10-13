@@ -7,7 +7,7 @@
 namespace Uni::Grpx
 {
     //! A simple buffer of bytes.
-    template <typename StoredType>
+    template<typename StoredType>
     class Buffer
     {
     public:
@@ -91,10 +91,8 @@ namespace Uni::Grpx
         if (this != &other)
         {
             m_size = other.m_size;
-            if (m_data)
-            {
-                delete[] m_data;
-            }
+            delete[] m_data;
+
             m_data = new uint8_t[m_size];
 
             std::memcpy(m_data, other.m_data, m_size);

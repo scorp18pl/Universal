@@ -40,7 +40,7 @@ namespace Uni::Grpx
         [[nodiscard]] size_t GetStride() const;
         [[nodiscard]] Channel::Flags GetPixelFlags() const;
         [[nodiscard]] size_t GetPixelIndex(size_t x, size_t y) const;
-        Color GetPixelColor(size_t x, size_t y) const;
+        [[nodiscard]] Color GetPixelColor(size_t x, size_t y) const;
 
         void SetPixelColor(size_t x, size_t y, const Color& color);
 

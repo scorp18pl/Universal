@@ -34,16 +34,6 @@ namespace Uni::Alg::Noise
     float VectorGrid2D::Sample(const Math::Vector2f& gridPosition) const
     {
         static constexpr size_t CellCornerCount = 4LU;
-        static const std::array<std::pair<size_t, size_t>, CellCornerCount>
-            CellToCornerTranslations{
-                {
-                    { 0LU, 0LU }, // North West
-                    { 1LU, 0LU }, // North East
-                    { 0LU, 1LU }, // South West
-                    { 1LU, 1LU }, // South East
-                },
-            };
-
         const auto xIndex = static_cast<size_t>(gridPosition.m_x);
         const auto yIndex = static_cast<size_t>(gridPosition.m_y);
 

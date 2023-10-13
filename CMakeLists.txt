@@ -59,6 +59,14 @@ target_include_directories(universal
         PRIVATE Code/Source 3rdParty/Include
         )
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if(MSVC)
+        target_compile_options(universal PRIVATE /W4 /WX)
+    else()
+        target_compile_options(universal PRIVATE -Wall -Wextra -Werror)
+    endif()
+endif()
+
 target_link_libraries(universal PRIVATE nlohmann_json::nlohmann_json)
 
 set_target_properties(universal PROPERTIES VERSION ${PROJECT_VERSION})

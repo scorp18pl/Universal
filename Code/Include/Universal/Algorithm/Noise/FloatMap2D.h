@@ -26,7 +26,7 @@ namespace Uni::Alg::Noise
         [[nodiscard]] Grpx::Bitmap ToBitMap() const;
 
     private:
-        size_t GetIndex(size_t x, size_t y) const;
+        [[nodiscard]] size_t GetIndex(size_t x, size_t y) const;
 
         size_t m_width, m_height;
         float* m_values;

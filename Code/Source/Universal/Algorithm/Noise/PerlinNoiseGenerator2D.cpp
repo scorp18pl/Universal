@@ -11,8 +11,8 @@ namespace Uni::Alg::Noise
 
     PerlinNoiseGenerator2D::PerlinNoiseGenerator2D(
         PerlinNoiseGenerator2D&& other) noexcept
-        : m_grid{ std::move(other.m_grid) }
-        , m_generator{ other.m_generator }
+        : m_generator{ other.m_generator }
+        , m_grid{ std::move(other.m_grid) }
     {
     }
 
