@@ -182,4 +182,39 @@ namespace Uni::Grpx
 
         return *this;
     }
+
+    void Bitmap::WriteData(
+        size_t x,
+        size_t y,
+        const Bitmap& other,
+        size_t bitmapX,
+        size_t bitmapY,
+        size_t width,
+        size_t height)
+    {
+        if (other.GetPixelFlags() != GetPixelFlags())
+        {
+            throw std::runtime_error("Pixel flags do not match.");
+        }
+
+        if (width == 0 || height == 0)
+        {
+            width = other.GetWidth() - bitmapX;
+            height = other.GetHeight() - bitmapY;
+        }
+
+        if (x + width > GetWidth() ||
+            y + height > GetHeight())
+        {
+            throw std::runtime_error("Bitmap does not fit.");
+        }
+
+        for (size_t i = 0; i < width; i++)
+        {
+            for (size_t j = 0; j < height; j++)
+            {
+                SetPixelColor(x + i, y + j, other.GetPixelColor(bitmapX + i, bitmapY + j));
+            }
+        }
+    }
 } // namespace Uni::Grpx
