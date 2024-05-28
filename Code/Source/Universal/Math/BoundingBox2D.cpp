@@ -8,7 +8,8 @@ namespace Uni::Math
     }
 
     BoundingBox2D BoundingBox2D::CreateFromDimensions(
-        const Vector2f& minPoint, const Vector2f& dimensions)
+        const Vector2f& minPoint,
+        const Vector2f& dimensions)
     {
         return { minPoint, dimensions };
     }
@@ -40,23 +41,24 @@ namespace Uni::Math
     }
 
     BoundingBox2D::BoundingBox2D(
-        const Vector2f& minPoint, const Vector2f& dimensions)
-        : m_minPoint{ minPoint }
-        , m_maxPoint{ minPoint + dimensions }
-        , m_dimensions{ dimensions }
+        const Vector2f& origin,
+        const Vector2f& dimensions)
+        : m_origin{ origin }
+          , m_dimensions{ dimensions }
     {
     }
 
     bool BoundingBox2D::IsValid() const
     {
-        return m_minPoint.m_x < m_maxPoint.m_x &&
-            m_minPoint.m_y < m_maxPoint.m_y;
+        return m_dimensions.m_x > 0.0f && m_dimensions.m_y > 0.0f;
     }
 
     bool BoundingBox2D::IsPointWithinBounds(const Vector2f& point) const
     {
-        return point.m_x >= m_minPoint.m_x && point.m_y >= m_minPoint.m_y &&
-            point.m_x < m_maxPoint.m_x && point.m_y < m_maxPoint.m_y;
+        return point.m_x >= m_origin.m_x &&
+            point.m_y >= m_origin.m_y &&
+            point.m_x < m_origin.m_x + m_dimensions.m_x &&
+            point.m_y < m_origin.m_y + m_dimensions.m_y;
     }
 
     Vector2f BoundingBox2D::GetDimensions() const
@@ -66,11 +68,11 @@ namespace Uni::Math
 
     Vector2f BoundingBox2D::GetMinPoint() const
     {
-        return m_minPoint;
+        return m_origin;
     }
 
     Vector2f BoundingBox2D::GetMaxPoint() const
     {
-        return m_maxPoint;
+        return m_origin + m_dimensions;
     }
 } // namespace Uni::Math

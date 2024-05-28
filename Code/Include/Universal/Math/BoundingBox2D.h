@@ -12,12 +12,12 @@ namespace Uni::Math
     public:
         static BoundingBox2D CreateInvalid();
         static BoundingBox2D CreateFromDimensions(
-            const Vector2f& minPoint, const Vector2f& dimensions);
+            const Vector2f& origin, const Vector2f& dimensions);
         static BoundingBox2D CreateFromPoints(
             const std::vector<Vector2f>& points);
 
         BoundingBox2D();
-        BoundingBox2D(const Vector2f& minPoint, const Vector2f& dimensions);
+        BoundingBox2D(const Vector2f& origin, const Vector2f& dimensions);
         BoundingBox2D(const BoundingBox2D& other) = default;
         BoundingBox2D(BoundingBox2D&& other) = default;
         ~BoundingBox2D() = default;
@@ -34,7 +34,7 @@ namespace Uni::Math
         BoundingBox2D& operator=(const BoundingBox2D& other) = default;
 
     private:
-        Vector2f m_minPoint, m_maxPoint, m_dimensions;
+        Vector2f m_origin, m_dimensions;
     };
 
 } // namespace Uni::Math
