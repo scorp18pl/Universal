@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Universal/Math/BoundingBox2D.h>
+#include <Universal/Math/Aabb2D.h>
 #include <Universal/Math/Vector/Vector2f.h>
 #include <cstddef>
 #include <vector>
@@ -11,9 +11,7 @@ namespace Uni::Alg::Noise
     class VectorGrid2D
     {
     public:
-        VectorGrid2D(
-            size_t cellCountX = 1LU,
-            size_t cellCountY = 1LU);
+        VectorGrid2D(size_t cellCountX = 1LU, size_t cellCountY = 1LU);
         VectorGrid2D(const VectorGrid2D& other) = default;
         VectorGrid2D(VectorGrid2D&& other) noexcept;
         ~VectorGrid2D() = default;
@@ -30,7 +28,8 @@ namespace Uni::Alg::Noise
         //! Resizes the grid.
         void Resize(size_t cellCountX, size_t cellCountY);
 
-        //! Generates a new set of vectors for the grid using the provided generator.
+        //! Generates a new set of vectors for the grid using the provided
+        //! generator.
         //! @param generator The generator to use to generate the vectors.
         void GenerateVectors(Math::Rand::Generator& generator);
 

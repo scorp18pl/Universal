@@ -23,7 +23,7 @@ add_library(universal STATIC
         Code/Source/Universal/Algorithm/Noise/PerlinNoiseGenerator2D.cpp
         Code/Source/Universal/Algorithm/Noise/VectorGrid2D.cpp
         Code/Source/Universal/Algorithm/Noise/FloatMap2D.cpp
-        Code/Source/Universal/Math/BoundingBox2D.cpp
+        Code/Source/Universal/Math/Aabb2D.cpp
         Code/Source/Universal/Math/Math.cpp
         Code/Source/Universal/Math/Vector/Vector2f.cpp
         Code/Source/Universal/Math/Vector/Vector3f.cpp
@@ -35,7 +35,7 @@ add_library(universal STATIC
         Code/Include/Universal/Algorithm/Noise/PerlinNoiseGenerator2D.h
         Code/Include/Universal/Algorithm/Noise/VectorGrid2D.h
         Code/Include/Universal/Algorithm/Noise/FloatMap2D.h
-        Code/Include/Universal/Math/BoundingBox2D.h
+        Code/Include/Universal/Math/Aabb2D.h
         Code/Include/Universal/Math/Math.h
         Code/Include/Universal/Math/Vector/Vector2f.h
         Code/Include/Universal/Math/Vector/Vector3f.h
@@ -45,7 +45,6 @@ add_library(universal STATIC
         Code/Include/Universal/Profiling/TimeRegistry.h
         Code/Include/Universal/Graphics/Channel.h
         Code/Include/Universal/Graphics/Bitmap.h
-        Code/Include/Universal/Graphics/Buffer.h
         Code/Include/Universal/Graphics/GraphicsUtils.h
         Code/Include/Universal/Graphics/Color.h
         Code/Source/Universal/Graphics/Color.cpp

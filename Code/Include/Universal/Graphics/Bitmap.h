@@ -10,7 +10,7 @@
 namespace Uni::Grpx
 {
     //! 2D pixel buffer with defined channel properties.
-    class Bitmap : public Buffer<uint8_t>
+    class Bitmap
     {
     public:
         static Bitmap CreateFromFile(
@@ -30,15 +30,30 @@ namespace Uni::Grpx
         Bitmap(Bitmap&& other) noexcept;
         ~Bitmap() = default;
 
-        [[nodiscard]] size_t GetWidth() const;
-        [[nodiscard]] size_t GetHeight() const;
+        // clang-format off
+        [[nodiscard]] size_t GetWidth() const { return m_width; }
+        [[nodiscard]] size_t GetHeight() const { return m_height; }
+        [[nodiscard]] size_t GetPixelSize() const { return m_pixelSize; }
+        // clang-format on
 
-        [[nodiscard]] size_t GetPixelSize() const;
+        [[nodiscard]] Channel::Flags GetPixelFlags() const
+        {
+            return m_pixelFlags;
+        }
+
+        [[nodiscard]] size_t GetSize() const
+        {
+            return m_height * m_width * m_pixelSize;
+        }
+
         //! Returns stride in bytes.
         //! Stride is the number of bytes between the start of one row and the
         //! start of the next.
-        [[nodiscard]] size_t GetStride() const;
-        [[nodiscard]] Channel::Flags GetPixelFlags() const;
+        [[nodiscard]] size_t GetStride() const
+        {
+            return GetPixelSize() * GetWidth();
+        }
+
         [[nodiscard]] size_t GetPixelIndex(size_t x, size_t y) const;
         [[nodiscard]] Color GetPixelColor(size_t x, size_t y) const;
 
@@ -72,9 +87,12 @@ namespace Uni::Grpx
         Bitmap& operator=(const Bitmap& other);
 
     private:
+        Channel::Flags m_pixelFlags{ Channel::Flags::Invalid };
+
         size_t m_width{ 0LU };
         size_t m_height{ 0LU };
-        Channel::Flags m_pixelFlags{ Channel::Flags::Invalid };
         size_t m_pixelSize{ 0LU };
+
+        std::vector<uint8_t> m_data;
     };
 } // namespace Uni::Grpx

@@ -37,68 +37,41 @@ namespace Uni::Grpx
     }
 
     Bitmap::Bitmap(size_t width, size_t height, Channel::Flags pixelFlags)
-        : Buffer{ Utils::CalculatePixelSize(pixelFlags) * width * height }
+        : m_pixelFlags{ pixelFlags }
         , m_width{ width }
         , m_height{ height }
-        , m_pixelFlags{ pixelFlags }
         , m_pixelSize{ Utils::CalculatePixelSize(pixelFlags) }
+        , m_data(GetSize())
     {
     }
 
     Bitmap::Bitmap(
         uint8_t* data, size_t width, size_t height, Channel::Flags pixelFlags)
-        : Buffer{ data, Utils::CalculatePixelSize(pixelFlags) * width * height }
+        : m_pixelFlags{ pixelFlags }
         , m_width{ width }
         , m_height{ height }
-        , m_pixelFlags{ pixelFlags }
         , m_pixelSize{ Utils::CalculatePixelSize(pixelFlags) }
+        , m_data{ data, data + GetSize() }
     {
     }
 
     Bitmap::Bitmap(const Bitmap& other)
-        : Buffer(other.GetSize())
+        : m_pixelFlags{ other.m_pixelFlags }
         , m_width{ other.m_width }
         , m_height{ other.m_height }
-        , m_pixelFlags{ other.m_pixelFlags }
         , m_pixelSize{ other.m_pixelSize }
+        , m_data(other.m_data)
     {
-        std::memcpy(m_data, other.m_data, other.m_size);
     }
 
     Bitmap::Bitmap(Bitmap&& other) noexcept
-        : Buffer{ other.m_size }
+        : m_pixelFlags{ other.m_pixelFlags }
         , m_width{ other.m_width }
         , m_height{ other.m_height }
-        , m_pixelFlags{ other.m_pixelFlags }
         , m_pixelSize{ other.m_pixelSize }
+        , m_data(std::move(other.m_data))
     {
-        other.m_width = 0LU;
-        other.m_height = 0LU;
-    }
-
-    size_t Bitmap::GetWidth() const
-    {
-        return m_width;
-    }
-
-    size_t Bitmap::GetHeight() const
-    {
-        return m_height;
-    }
-
-    size_t Bitmap::GetPixelSize() const
-    {
-        return m_pixelSize;
-    }
-
-    size_t Bitmap::GetStride() const
-    {
-        return GetPixelSize() * GetWidth();
-    }
-
-    Channel::Flags Bitmap::GetPixelFlags() const
-    {
-        return m_pixelFlags;
+        other.m_width = other.m_height = 0;
     }
 
     size_t Bitmap::GetPixelIndex(size_t x, size_t y) const
@@ -110,7 +83,7 @@ namespace Uni::Grpx
     {
         float r, g, b, a;
         r = g = b = a = 1.0f;
-        const uint8_t* pixelData = &GetData()[GetPixelIndex(x, y)];
+        const uint8_t* pixelData = &m_data[GetPixelIndex(x, y)];
 
         if (m_pixelFlags & Channel::Flags::Rgb16)
         {
@@ -139,7 +112,7 @@ namespace Uni::Grpx
 
     void Bitmap::SetPixelColor(size_t x, size_t y, const Color& color)
     {
-        uint8_t* pixelData = &GetData()[GetPixelIndex(x, y)];
+        uint8_t* pixelData = &m_data[GetPixelIndex(x, y)];
 
         if (m_pixelFlags & Channel::Flags::Rgb16)
         {
@@ -177,7 +150,7 @@ namespace Uni::Grpx
             m_height = other.m_height;
             m_pixelFlags = other.m_pixelFlags;
             m_pixelSize = other.m_pixelSize;
-            Buffer::operator=(other);
+            m_data = other.m_data;
         }
 
         return *this;
@@ -203,8 +176,7 @@ namespace Uni::Grpx
             height = other.GetHeight() - bitmapY;
         }
 
-        if (x + width > GetWidth() ||
-            y + height > GetHeight())
+        if (x + width > GetWidth() || y + height > GetHeight())
         {
             throw std::runtime_error("Bitmap does not fit.");
         }
@@ -213,7 +185,10 @@ namespace Uni::Grpx
         {
             for (size_t j = 0; j < height; j++)
             {
-                SetPixelColor(x + i, y + j, other.GetPixelColor(bitmapX + i, bitmapY + j));
+                SetPixelColor(
+                    x + i,
+                    y + j,
+                    other.GetPixelColor(bitmapX + i, bitmapY + j));
             }
         }
     }

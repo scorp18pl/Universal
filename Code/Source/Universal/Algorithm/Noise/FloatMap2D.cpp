@@ -28,20 +28,11 @@ namespace Uni::Alg::Noise
         other.m_height = 0LU;
     }
 
-    FloatMap2D::~FloatMap2D()
-    {
-        delete[] m_values;
-    }
+    FloatMap2D::~FloatMap2D() { delete[] m_values; }
 
-    size_t FloatMap2D::GetWidth() const
-    {
-        return m_width;
-    }
+    size_t FloatMap2D::GetWidth() const { return m_width; }
 
-    size_t FloatMap2D::GetHeight() const
-    {
-        return m_height;
-    }
+    size_t FloatMap2D::GetHeight() const { return m_height; }
 
     float FloatMap2D::GetValue(size_t x, size_t y) const
     {
@@ -101,10 +92,11 @@ namespace Uni::Alg::Noise
                         const size_t y = index / m_width;
                         const size_t x = index - (y * m_width);
 
-                        bitmap.GetData()[bitmap.GetPixelIndex(x, y)] =
-                            static_cast<uint8_t>(
-                                (GetValue(x, y) - minMax.first) /
-                                (minMax.second - minMax.first) * 255.0f);
+                        const float value = (GetValue(x, y) - minMax.first) /
+                            (minMax.second - minMax.first);
+
+                        bitmap.SetPixelColor(
+                            x, y, Grpx::Color::CreateGray(value));
                     }
                 },
                 workerCount,
