@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Universal/Graphics/Buffer.h>
 #include <Universal/Graphics/Channel.h>
 #include <Universal/Graphics/Color.h>
 #include <cstdint>
@@ -41,6 +40,11 @@ namespace Uni::Grpx
             return m_pixelFlags;
         }
 
+        [[nodiscard]] const uint8_t* GetData() const
+        {
+            return m_data.data();
+        }
+
         [[nodiscard]] size_t GetSize() const
         {
             return m_height * m_width * m_pixelSize;
@@ -56,6 +60,11 @@ namespace Uni::Grpx
 
         [[nodiscard]] size_t GetPixelIndex(size_t x, size_t y) const;
         [[nodiscard]] Color GetPixelColor(size_t x, size_t y) const;
+
+        [[nodiscard]] uint8_t* GetData()
+        {
+            return m_data.data();
+        }
 
         void SetPixelColor(size_t x, size_t y, const Color& color);
 

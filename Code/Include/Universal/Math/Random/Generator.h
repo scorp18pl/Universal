@@ -10,8 +10,7 @@ namespace Uni::Math::Rand
     class Generator
     {
     public:
-        Generator() = default;
-        explicit Generator(SeedType seed);
+        explicit Generator(SeedType seed = 0ULL);
         Generator(const Generator& other) = default;
         Generator(Generator&& other) noexcept = default;
         ~Generator() = default;

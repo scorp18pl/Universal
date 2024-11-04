@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(universal VERSION 0.3.0 DESCRIPTION "a general purpose c++ library")
 
@@ -22,7 +23,7 @@ endif()
 add_library(universal STATIC
         Code/Source/Universal/Algorithm/Noise/PerlinNoiseGenerator2D.cpp
         Code/Source/Universal/Algorithm/Noise/VectorGrid2D.cpp
-        Code/Source/Universal/Algorithm/Noise/FloatMap2D.cpp
+        Code/Include/Universal/Algorithm/Noise/FloatMap.tpp
         Code/Source/Universal/Math/Aabb2D.cpp
         Code/Source/Universal/Math/Math.cpp
         Code/Source/Universal/Math/Vector/Vector2f.cpp
@@ -34,7 +35,7 @@ add_library(universal STATIC
         Code/Source/Universal/Graphics/GraphicsUtils.cpp
         Code/Include/Universal/Algorithm/Noise/PerlinNoiseGenerator2D.h
         Code/Include/Universal/Algorithm/Noise/VectorGrid2D.h
-        Code/Include/Universal/Algorithm/Noise/FloatMap2D.h
+        Code/Include/Universal/Algorithm/Noise/FloatMap.h
         Code/Include/Universal/Math/Aabb2D.h
         Code/Include/Universal/Math/Math.h
         Code/Include/Universal/Math/Vector/Vector2f.h
@@ -51,7 +52,28 @@ add_library(universal STATIC
         Code/Include/Universal/Math/Matrix/Matrix2x3f.h
         Code/Source/Universal/Math/Matrix/Matrix2x3f.cpp
         3rdParty/Include/stb/stb_image.h
-        Code/Source/Universal/System/Clock.cpp Code/Include/Universal/System/Clock.h Code/Source/Universal/Math/Vector/Vector4f.cpp Code/Include/Universal/Math/Vector/Vector4f.h Code/Source/Universal/Math/Matrix/Matrix3x4f.cpp Code/Include/Universal/Math/Matrix/Matrix3x4f.h Code/Source/Universal/Math/Transform.cpp Code/Include/Universal/Math/Transform.h Code/Source/Universal/Graphics/ColorPalette.cpp Code/Include/Universal/Graphics/ColorPalette.h Code/Source/Universal/Math/Quaternion.cpp Code/Include/Universal/Math/Quaternion.h Code/Include/Universal/Math/Matrix/Matrix4x4f.h Code/Source/Universal/Math/Matrix/Matrix4x4f.cpp)
+        Code/Source/Universal/System/Clock.cpp
+        Code/Include/Universal/System/Clock.h
+        Code/Include/Universal/System/TypeSafeId.h
+        Code/Source/Universal/Math/Vector/Vector4f.cpp
+        Code/Include/Universal/Math/Vector/Vector4f.h
+        Code/Source/Universal/Math/Matrix/Matrix3x4f.cpp
+        Code/Include/Universal/Math/Matrix/Matrix3x4f.h
+        Code/Source/Universal/Math/Transform.cpp
+        Code/Include/Universal/Math/Transform.h
+        Code/Source/Universal/Graphics/ColorPalette.cpp
+        Code/Include/Universal/Graphics/ColorPalette.h
+        Code/Source/Universal/Math/Quaternion.cpp
+        Code/Include/Universal/Math/Quaternion.h
+        Code/Include/Universal/Math/Matrix/Matrix4x4f.h
+        Code/Source/Universal/Math/Matrix/Matrix4x4f.cpp
+        Code/Include/Universal/Math/Matrix/Matrix3x3f.h
+        Code/Source/Universal/Math/Matrix/Matrix3x3f.cpp
+        Code/Include/Universal/Algorithm/Noise/FloatMap2D.h
+        Code/Source/Universal/Algorithm/Noise/FloatMap2D.cpp
+        Code/Include/Universal/Math/Aabb3D.h
+        Code/Source/Universal/Math/Aabb3D.cpp
+)
 
 target_include_directories(universal
         PUBLIC Code/Include

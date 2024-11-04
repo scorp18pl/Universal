@@ -45,4 +45,9 @@ namespace Uni::Math
     {
         return value1 * (1.0f - t) + value2 * t;
     }
+
+    float Attenuation(float t)
+    {
+        return std::pow<float, int>(0.5f - t * t, 4);
+    }
 } // namespace Uni::Math

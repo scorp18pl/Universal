@@ -29,4 +29,5 @@ namespace Uni::Math
     float SmoothStepSimple(float value);
     float SmoothStep(float value);
     float Lerp(float value1, float value2, float t);
+    float Attenuation(float t);
 } // namespace Uni::Math
