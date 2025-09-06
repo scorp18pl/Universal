@@ -14,7 +14,7 @@ if(BUILD_TESTS)
     FetchContent_Declare(
             googletest
             GIT_REPOSITORY https://github.com/google/googletest.git
-            GIT_TAG release-1.11.0
+            GIT_TAG v1.17.0
     )
     FetchContent_MakeAvailable(googletest)
 endif()
@@ -45,14 +45,14 @@ add_library(universal STATIC
         Code/Include/Universal/Profiling/TimeRegistry.h
         Code/Include/Universal/Graphics/Channel.h
         Code/Include/Universal/Graphics/Bitmap.h
-        Code/Include/Universal/Graphics/Buffer.h
         Code/Include/Universal/Graphics/GraphicsUtils.h
         Code/Include/Universal/Graphics/Color.h
         Code/Source/Universal/Graphics/Color.cpp
         Code/Include/Universal/Math/Matrix/Matrix2x3f.h
         Code/Source/Universal/Math/Matrix/Matrix2x3f.cpp
         3rdParty/Include/stb/stb_image.h
-        Code/Source/Universal/System/Clock.cpp Code/Include/Universal/System/Clock.h Code/Source/Universal/Math/Vector/Vector4f.cpp Code/Include/Universal/Math/Vector/Vector4f.h Code/Source/Universal/Math/Matrix/Matrix3x4f.cpp Code/Include/Universal/Math/Matrix/Matrix3x4f.h Code/Source/Universal/Math/Transform.cpp Code/Include/Universal/Math/Transform.h Code/Source/Universal/Graphics/ColorPalette.cpp Code/Include/Universal/Graphics/ColorPalette.h Code/Source/Universal/Math/Quaternion.cpp Code/Include/Universal/Math/Quaternion.h Code/Include/Universal/Math/Matrix/Matrix4x4f.h Code/Source/Universal/Math/Matrix/Matrix4x4f.cpp)
+        Code/Source/Universal/System/Clock.cpp Code/Include/Universal/System/Clock.h Code/Source/Universal/Math/Vector/Vector4f.cpp Code/Include/Universal/Math/Vector/Vector4f.h Code/Source/Universal/Math/Matrix/Matrix3x4f.cpp Code/Include/Universal/Math/Matrix/Matrix3x4f.h Code/Source/Universal/Math/Transform.cpp Code/Include/Universal/Math/Transform.h Code/Source/Universal/Graphics/ColorPalette.cpp Code/Include/Universal/Graphics/ColorPalette.h Code/Source/Universal/Math/Quaternion.cpp Code/Include/Universal/Math/Quaternion.h Code/Include/Universal/Math/Matrix/Matrix4x4f.h Code/Source/Universal/Math/Matrix/Matrix4x4f.cpp
+)
 
 target_include_directories(universal
         PUBLIC Code/Include

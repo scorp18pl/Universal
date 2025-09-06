@@ -92,7 +92,7 @@ namespace Uni::Math
 
     Vector4f Vector4f::GetNormalized() const
     {
-        return (*this) * Q_rsqrt(GetLengthSquared());
+        return (*this) / std::sqrt(GetLengthSquared());
     }
 
     float Vector4f::DotProduct(const Vector4f& vector) const

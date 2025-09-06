@@ -47,7 +47,7 @@ namespace Uni::Math
 
     Vector2f Vector2f::GetNormalized() const
     {
-        return (*this) * Q_rsqrt(GetLengthSquared());
+        return (*this) / std::sqrt(GetLengthSquared());
     }
 
     Vector2f Vector2f::GetMod(const Vector2f& other) const
