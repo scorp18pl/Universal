@@ -1,3 +1,5 @@
+#include "Universal/Graphics/GraphicsUtils.h"
+
 #include <Universal/Graphics/Bitmap.h>
 #include <gtest/gtest.h>
 
@@ -52,8 +54,8 @@ namespace Uni::Grpx
 
         size_t x = 5;
         size_t y = 5;
-        size_t expectedIndex =
-            y * bitmap.GetStride() + x * bitmap.GetPixelSize();
+        size_t expectedIndex = y * bitmap.GetStride() +
+            x * Utils::CalculatePixelSize(bitmap.GetPixelFlags());
 
         EXPECT_EQ(bitmap.GetPixelIndex(x, y), expectedIndex);
 
@@ -65,7 +67,8 @@ namespace Uni::Grpx
 
         x = 10;
         y = 10;
-        expectedIndex = y * bitmap2.GetStride() + x * bitmap2.GetPixelSize();
+        expectedIndex = y * bitmap2.GetStride() +
+            x * Utils::CalculatePixelSize(bitmap2.GetPixelFlags());
 
         EXPECT_EQ(bitmap2.GetPixelIndex(x, y), expectedIndex);
     }

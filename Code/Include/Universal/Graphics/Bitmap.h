@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Universal/Graphics/Buffer.h>
 #include <Universal/Graphics/Channel.h>
 #include <Universal/Graphics/Color.h>
 #include <cstdint>
@@ -10,7 +9,7 @@
 namespace Uni::Grpx
 {
     //! 2D pixel buffer with defined channel properties.
-    class Bitmap : public Buffer<uint8_t>
+    class Bitmap
     {
     public:
         static Bitmap CreateFromFile(
@@ -22,26 +21,27 @@ namespace Uni::Grpx
         //! Creates a bitmap with the given width, height and pixel flags.
         Bitmap(size_t width, size_t height, Channel::Flags pixelFlags);
         Bitmap(
-            uint8_t* data,
+            const uint8_t* data,
             size_t width,
             size_t height,
             Channel::Flags pixelFlags);
-        Bitmap(const Bitmap& other);
-        Bitmap(Bitmap&& other) noexcept;
+        Bitmap(const Bitmap& other) = default;
+        Bitmap(Bitmap&& other) noexcept = default;
         ~Bitmap() = default;
 
         [[nodiscard]] size_t GetWidth() const;
         [[nodiscard]] size_t GetHeight() const;
 
-        [[nodiscard]] size_t GetPixelSize() const;
         //! Returns stride in bytes.
         //! Stride is the number of bytes between the start of one row and the
         //! start of the next.
+        [[nodiscard]] const uint8_t* GetData() const;
         [[nodiscard]] size_t GetStride() const;
         [[nodiscard]] Channel::Flags GetPixelFlags() const;
         [[nodiscard]] size_t GetPixelIndex(size_t x, size_t y) const;
         [[nodiscard]] Color GetPixelColor(size_t x, size_t y) const;
 
+        [[nodiscard]] uint8_t* GetData();
         void SetPixelColor(size_t x, size_t y, const Color& color);
 
         //! WritePixelData from other bitmap to this bitmap.
@@ -72,9 +72,11 @@ namespace Uni::Grpx
         Bitmap& operator=(const Bitmap& other);
 
     private:
+        Channel::Flags m_pixelFlags{ Channel::Flags::Invalid };
+
         size_t m_width{ 0LU };
         size_t m_height{ 0LU };
-        Channel::Flags m_pixelFlags{ Channel::Flags::Invalid };
-        size_t m_pixelSize{ 0LU };
+
+        std::vector<uint8_t> m_data;
     };
 } // namespace Uni::Grpx
